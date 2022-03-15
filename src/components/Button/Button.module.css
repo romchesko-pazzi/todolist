@@ -1,0 +1,12 @@
+.activeFilter {
+    background-color: aquamarine;
+}
+
+.isDoneStyle {
+    opacity: 0.5;
+}
+
+.visibility {
+    margin-left: 5px;
+    border-radius: 10%;
+}

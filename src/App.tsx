@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {v1} from 'uuid';
 import './App.css';
 
-import {TaskType, Todolist} from './Todolist';
+import {Todolist} from './Todolist';
 import {AddForm} from "./components/AddForm/AddForm";
 import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";

@@ -4,6 +4,8 @@ import './App.css';
 
 import {TaskType, Todolist} from './Todolist';
 import {AddForm} from "./components/AddForm/AddForm";
+import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {Menu} from "@mui/icons-material";
 
 export type FilterType = "all" | "active" | "completed" | "";
 export type TodolistType = {
@@ -27,11 +29,11 @@ export function App() {
             {id: v1(), title: "GraphQL", isDone: false},
         ],
         [todolistID2]: [
-            {id: v1(), title: "HTML&CSS2", isDone: true},
-            {id: v1(), title: "JS2", isDone: true},
-            {id: v1(), title: "ReactJS2", isDone: false},
-            {id: v1(), title: "Rest API2", isDone: false},
-            {id: v1(), title: "GraphQL2", isDone: false},
+            {id: v1(), title: "Milk", isDone: true},
+            {id: v1(), title: "Flour", isDone: true},
+            {id: v1(), title: "Meat", isDone: false},
+            {id: v1(), title: "Carrots", isDone: false},
+            {id: v1(), title: "Water", isDone: false},
         ],
     });
 
@@ -53,7 +55,7 @@ export function App() {
     }
     const addTodoList = (titleOfTodolist: string) => {
         let newTodolist = {id: todolistID3, title: titleOfTodolist, filter: "all"};
-        setTodolists([...todolists, newTodolist]);
+        setTodolists([newTodolist, ...todolists,]);
         setTasks({...tasks, [todolistID3]: []})
     }
     const updateTodolistTitle = (todolistID: string, newTitle: string) => {
@@ -64,22 +66,42 @@ export function App() {
     }
     return (
         <div className="App">
-            <AddForm name={"add todolist"} callback={addTodoList}/>
-            {todolists.map((m, index) => {
-                return (
-                    <Todolist
-                        todolistID={m.id}
-                        key={index}
-                        title={m.title}
-                        tasks={tasks[m.id]}
-                        deleteTask={deleteTask}
-                        addTask={addTask}
-                        changeStatus={changeStatus}
-                        updateTodolistTitle={updateTodolistTitle}
-                        renameTodolistTask={renameTodolistTask}
-                    />
-                )
-            })}
+            <AppBar position="static">
+                <Toolbar variant="dense">
+                    <IconButton edge="start" color="inherit" sx={{mr: 2}}>
+                        <Menu/>
+                    </IconButton>
+                    <Typography variant="h5" color="inherit" component="div">
+                        Todolist
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <Container fixed>
+                <Grid container style={{padding: "15px"}}>
+                    <AddForm name={"add todolist"} callback={addTodoList}/>
+                </Grid>
+                <Grid container spacing={7}>
+                    {todolists.map((m, index) => {
+                        return (
+                            <Grid item>
+                                <Paper elevation={4} style={{padding: "20px"}}>
+                                    <Todolist
+                                        todolistID={m.id}
+                                        key={index}
+                                        title={m.title}
+                                        tasks={tasks[m.id]}
+                                        deleteTask={deleteTask}
+                                        addTask={addTask}
+                                        changeStatus={changeStatus}
+                                        updateTodolistTitle={updateTodolistTitle}
+                                        renameTodolistTask={renameTodolistTask}
+                                    />
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Container>
         </div>
     );
 }

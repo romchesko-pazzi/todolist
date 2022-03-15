@@ -1,15 +1,14 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-// import {Button} from "../Button/Button";
-import s from "../../Todolist.module.css"
-import {Button} from "@mui/material";
+import {IconButton, TextField} from "@mui/material";
+import {AddCircle} from "@mui/icons-material";
 
 type AddFormPropsType = {
     callback: (title: string) => void,
-    name:string,
+    name: string,
 }
 
 export const AddForm = (props: AddFormPropsType) => {
-    const {callback,name} = props
+    const {callback} = props
     const [value, setValue] = useState("");
     const [error, setError] = useState(false);
 
@@ -37,10 +36,16 @@ export const AddForm = (props: AddFormPropsType) => {
 
     return (
         <div>
-            <input value={value} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
-            {/*<Button name={name} callBack={onClickHandler}/>*/}
-            <Button variant={"contained"}/>
-            {error ? <div className={s.errorMessage}>Title is required</div> : ""}
+            <TextField
+                helperText={error && "Title is required"}
+                error={error}
+                label={"Title"}
+                value={value}
+                onChange={onChangeHandler}
+                onKeyPress={onKeyPressHandler}/>
+            <IconButton>
+                <AddCircle color={"primary"} onClick={onClickHandler}/>
+            </IconButton>
         </div>
     );
 };

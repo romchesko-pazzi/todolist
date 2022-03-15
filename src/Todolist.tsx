@@ -4,7 +4,7 @@ import {FilterType} from "./App";
 import s from "./Todolist.module.css";
 import {AddForm} from "./components/AddForm/AddForm";
 import {EditableSpan} from "./components/EditableSpan/EditableSpan";
-import {Button, IconButton} from "@mui/material";
+import {Button, Checkbox, Grid, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 export type TaskType = {
@@ -59,31 +59,32 @@ export const Todolist = (props: PropsType) => {
         <div>
             <AddForm name={"add task"} callback={addTaskHandler}/>
         </div>
-        <ul>
+        <div>
             {filteredTasks.map(m => {
                 return (
-                    <li key={m.id} className={m.isDone ? s.isDone : ""}>
-                        <input
-                            type={"checkbox"}
-                            checked={m.isDone}
-                            onChange={(e) => checkedHandler(props.todolistID, m.id, e.currentTarget.checked)}
-                        />
+                    <div key={m.id} className={m.isDone ? s.isDone : ""}>
+                        <Checkbox checked={m.isDone}
+                                  onChange={(e) => checkedHandler(props.todolistID, m.id, e.currentTarget.checked)}/>
                         <EditableSpan name={m.title}
                                       callback={(newTitle) => renameTodolistTaskHandler(newTitle, m.id)}/>
                         <IconButton onClick={() => deleteHandler(m.id)}>
                             <Delete/>
                         </IconButton>
-                    </li>
+                    </div>
                 )
             })}
-        </ul>
+        </div>
         <div>
+            <Grid container>
             <Button onClick={() => filterHandler("all")}
-                    variant={filter === "all" ? "contained" : "outlined"}>all</Button>
+                    variant={filter === "all" ? "contained" : "text"}>all</Button>
             <Button onClick={() => filterHandler("active")}
-                    variant={filter === "active" ? "contained" : "outlined"}>active</Button>
+                    color={"secondary"}
+                    variant={filter === "active" ? "contained" : "text"}>active</Button>
             <Button onClick={() => filterHandler("completed")}
-                    variant={filter === "completed" ? "contained" : "outlined"}>completed</Button>
+                    color={"success"}
+                    variant={filter === "completed" ? "contained" : "text"}>completed</Button>
+            </Grid>
         </div>
     </div>
 }

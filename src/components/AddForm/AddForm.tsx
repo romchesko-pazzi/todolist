@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {IconButton, TextField} from "@mui/material";
 import {AddCircle} from "@mui/icons-material";
+import s from "./AddForm.module.css"
 
 type AddFormPropsType = {
     callback: (title: string) => void,
@@ -35,7 +36,7 @@ export const AddForm = (props: AddFormPropsType) => {
     }
 
     return (
-        <div>
+        <div className={s.main}>
             <TextField
                 helperText={error && "Title is required"}
                 error={error}
@@ -43,9 +44,11 @@ export const AddForm = (props: AddFormPropsType) => {
                 value={value}
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}/>
+            <div className={s.btn}>
             <IconButton>
                 <AddCircle color={"primary"} onClick={onClickHandler}/>
             </IconButton>
+            </div>
         </div>
     );
 };

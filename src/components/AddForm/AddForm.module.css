@@ -1,0 +1,9 @@
+.main {
+    height: 80px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.btn {
+    margin-top: 8px;
+}

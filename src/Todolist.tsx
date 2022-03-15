@@ -1,6 +1,5 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {useState} from 'react';
 import {FilterType} from "./App";
-// import {Button} from "./components/Button/Button";
 import s from "./Todolist.module.css";
 import {AddForm} from "./components/AddForm/AddForm";
 import {EditableSpan} from "./components/EditableSpan/EditableSpan";

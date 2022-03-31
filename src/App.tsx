@@ -9,8 +9,8 @@ import {Menu} from "@mui/icons-material";
 
 export type FilterType = "all" | "active" | "completed" | "";
 export type TodolistType = {
-    id: string,
-    title: string,
+    id: string
+    title: string
     filter: string
 }
 
@@ -53,6 +53,11 @@ export function App() {
     const changeStatus = (todolistID: string, id: string, value: boolean) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === id ? {...m, isDone: value} : m)});
     }
+    const renameTodolistTask = (todolistID: string, taskID: string, newTitle: string) => {
+        setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, title: newTitle} : m)})
+    }
+
+
     const addTodoList = (titleOfTodolist: string) => {
         let newTodolist = {id: todolistID3, title: titleOfTodolist, filter: "all"};
         setTodolists([newTodolist, ...todolists,]);
@@ -61,9 +66,13 @@ export function App() {
     const updateTodolistTitle = (todolistID: string, newTitle: string) => {
         setTodolists(todolists.map(m => m.id === todolistID ? {...m, title: newTitle} : m));
     }
-    const renameTodolistTask = (todolistID: string, taskID: string, newTitle: string) => {
-        setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, title: newTitle} : m)})
+    const removeTodolist = (todolistID: string) => {
+        setTodolists(todolists.filter(r => r.id !== todolistID));
+        let copyTasks = {...tasks};
+        delete copyTasks[todolistID];
+        setTasks(copyTasks);
     }
+
     return (
         <div className="App">
             <AppBar position="static">
@@ -95,6 +104,7 @@ export function App() {
                                         changeStatus={changeStatus}
                                         updateTodolistTitle={updateTodolistTitle}
                                         renameTodolistTask={renameTodolistTask}
+                                        removeTodolist={removeTodolist}
                                     />
                                 </Paper>
                             </Grid>

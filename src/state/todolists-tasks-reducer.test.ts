@@ -14,6 +14,5 @@ test("id should be similar", () => {
     const key = Object.keys(endTasksState);
 
     expect(key[0]).toStrictEqual(endTodolistsState[0].id);
-    expect(endTodolistsState[0].id).toStrictEqual(action.payload.todolistID)
-
+    expect(endTodolistsState[0].id).toStrictEqual(action.payload.todolistID);
 })

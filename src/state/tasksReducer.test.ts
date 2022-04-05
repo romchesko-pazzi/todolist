@@ -7,7 +7,7 @@ import {
     renameTaskAC,
     tasksReducer
 } from "./tasksReducer";
-import {addTodolistAC, removeTodolistAC} from "./todolistReducer";
+import {addTodolistAC, removeTodolistAC} from "./todolistsReducer";
 
 let todolistID1: string;
 let todolistID2: string;

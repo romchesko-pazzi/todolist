@@ -7,6 +7,7 @@ import {
     renameTaskAC,
     tasksReducer
 } from "./tasksReducer";
+import {addTodolistAC, removeTodolistAC} from "./todolistReducer";
 
 let todolistID1: string;
 let todolistID2: string;
@@ -82,27 +83,26 @@ test('title of specified task should be changed', () => {
 
 test('new array should be added when new todolist is added', () => {
 
-    const action = AddTodolistAC("new todolist");
-    const endState = tasksReducer(startState, action)
-
-
+    const action = addTodolistAC("new todolist");
+    const endState = tasksReducer(startState, action);
     const keys = Object.keys(endState);
-    const newKey = keys.find(k => k != "todolistId1" && k != "todolistId2");
+    const newKey = keys.find(k => k !== todolistID1 && k !== todolistID2);
     if (!newKey) {
-        throw Error("new key should be added")
+        throw Error("new key should be added");
     }
 
-    expect(keys.length).toBe(3);
-    expect(endState[newKey]).toEqual([]);
+    expect(keys.length).toStrictEqual(3);
+    expect(endState[newKey]).toStrictEqual([]);
 });
 
 test('property with todolistId should be deleted', () => {
 
-    const action = RemoveTodolistAC("todolistId2");
-    const endState = tasksReducer(startState, action)
+    const action = removeTodolistAC(todolistID2);
+    const endState = tasksReducer(startState, action);
     const keys = Object.keys(endState);
-    expect(keys.length).toBe(1);
-    expect(endState["todolistId2"]).not.toBeDefined();
+
+    expect(keys.length).toStrictEqual(1);
+    expect(endState[todolistID2]).toBeUndefined();
 });
 
 

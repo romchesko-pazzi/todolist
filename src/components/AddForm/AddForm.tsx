@@ -8,7 +8,8 @@ type AddFormPropsType = {
     name: string,
 }
 
-export const AddForm = (props: AddFormPropsType) => {
+export const AddForm = React.memo((props: AddFormPropsType) => {
+    console.log("ADDFORM");
     const {callback} = props
     const [value, setValue] = useState("");
     const [error, setError] = useState(false);
@@ -45,10 +46,10 @@ export const AddForm = (props: AddFormPropsType) => {
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}/>
             <div className={s.btn}>
-            <IconButton>
-                <AddCircle color={"primary"} onClick={onClickHandler}/>
-            </IconButton>
+                <IconButton onClick={onClickHandler}>
+                    <AddCircle color={"primary"}/>
+                </IconButton>
             </div>
         </div>
     );
-};
+});

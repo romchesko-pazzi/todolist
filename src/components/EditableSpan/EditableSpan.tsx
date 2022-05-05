@@ -3,13 +3,14 @@ import {TextField} from "@mui/material";
 
 export type EditableSpanPropsType = {
     name: string
-    callback:(newTitle:string)=>void
+    callback: (newTitle: string) => void
 }
 
-export const EditableSpan = (props: EditableSpanPropsType) => {
-    const {name,callback} = props;
+export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
+    console.log("EDITABLE SPAN");
+    const {name, callback} = props;
 
-    const [spanOrInput, setSpanOrInput] = useState(false)
+    const [spanOrInput, setSpanOrInput] = useState(false);
     const [value, setValue] = useState(name);
 
     const onDoubleClickHandler = () => {
@@ -21,7 +22,7 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
     }
 
     const onBlurHandler = () => {
-        callback(value)
+        callback(value);
         setSpanOrInput(false);
     }
 
@@ -33,7 +34,7 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
                 onBlur={onBlurHandler}
                 value={value}
                 autoFocus
-                /> : <span onDoubleClick={onDoubleClickHandler}>{name}</span>}
+            /> : <span onDoubleClick={onDoubleClickHandler}>{name}</span>}
         </>
     );
-};
+});

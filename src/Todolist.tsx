@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FilterType} from "./App";
-import s from "./Todolist.module.css";
 import {AddForm} from "./components/AddForm/AddForm";
 import {EditableSpan} from "./components/EditableSpan/EditableSpan";
-import {Button, Checkbox, Grid, IconButton} from "@mui/material";
+import {Button, Grid, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
+import {Task} from "./components/Task";
+import {useDispatch} from "react-redux";
+import {removeTaskAC} from "./state/tasksReducer";
 
 export type TaskType = {
     id: string
@@ -24,44 +26,63 @@ type PropsType = {
     removeTodolist: (todolistID: string) => void
 }
 
-export const Todolist = (props: PropsType) => {
+export const Todolist = React.memo((props: PropsType) => {
+    console.log("todolist");
+    const {
+        todolistID,
+        renameTodolistTask,
+        removeTodolist,
+        updateTodolistTitle,
+        title,
+        tasks,
+        deleteTask,
+        addTask,
+        changeStatus
+    } = props;
+
+
 
     const [filter, setFilter] = useState<FilterType>("all");
 
-
-    let filteredTasks = props.tasks;
+    let filteredTasks = tasks;
     if (filter === "completed") {
-        filteredTasks = props.tasks.filter(f => f.isDone);
+        filteredTasks = tasks.filter(f => f.isDone);
     } else if (filter === "active") {
-        filteredTasks = props.tasks.filter(f => !f.isDone);
+        filteredTasks = tasks.filter(f => !f.isDone);
     }
 
-    const filterTask = (taskTitle: FilterType) => {
+    const filterTask = useCallback((taskTitle: FilterType) => {
         setFilter(taskTitle);
-    }
+    }, []);
 
-    const addTaskHandler = (title: string) => {
-        props.addTask(props.todolistID, title);
-    }
-    const deleteHandler = (id: string) => props.deleteTask(props.todolistID, id);
-    const filterHandler = (title: FilterType) => filterTask(title);
-    const checkedHandler = (todolistID: string, id: string, event: boolean) => {
-        props.changeStatus(props.todolistID, id, event);
-    }
-    const updateTodolistTitleHandler = (newTitle: string) => {
-        props.updateTodolistTitle(props.todolistID, newTitle);
-    }
-    const renameTodolistTaskHandler = (newTitle: string, mID: string) => {
-        props.renameTodolistTask(props.todolistID, mID, newTitle);
-    }
-    const removeTodolistHandler = () => {
-        props.removeTodolist(props.todolistID);
-    }
+    const addTaskHandler = useCallback((title: string) => {
+        addTask(todolistID, title);
+    }, [addTask, todolistID]);
+
+    const deleteHandler = useCallback((id: string) => deleteTask(todolistID, id), [todolistID, deleteTask]);
+
+    const filterHandler = useCallback((title: FilterType) => filterTask(title), [filterTask]);
+
+    const checkedHandler = useCallback((todolistID: string, id: string, event: boolean) => {
+        changeStatus(todolistID, id, event);
+    }, [changeStatus]);
+
+    const updateTodolistTitleHandler = useCallback((newTitle: string) => {
+        updateTodolistTitle(todolistID, newTitle);
+    }, [updateTodolistTitle, todolistID]);
+
+    const renameTodolistTaskHandler = useCallback((newTitle: string, mID: string) => {
+        renameTodolistTask(todolistID, mID, newTitle);
+    }, [todolistID, renameTodolistTask]);
+
+    const removeTodolistHandler = useCallback(() => {
+        removeTodolist(todolistID);
+    }, [todolistID, removeTodolist]);
 
     return (
         <div>
             <h3>
-                <EditableSpan name={props.title} callback={updateTodolistTitleHandler}/>
+                <EditableSpan name={title} callback={updateTodolistTitleHandler}/>
                 <IconButton onClick={removeTodolistHandler}>
                     <Delete/>
                 </IconButton>
@@ -71,17 +92,12 @@ export const Todolist = (props: PropsType) => {
             </div>
             <div>
                 {filteredTasks.map(m => {
-                    return (
-                        <div key={m.id} className={m.isDone ? s.isDone : ""}>
-                            <Checkbox checked={m.isDone}
-                                      onChange={(e) => checkedHandler(props.todolistID, m.id, e.currentTarget.checked)}/>
-                            <EditableSpan name={m.title}
-                                          callback={(newTitle) => renameTodolistTaskHandler(newTitle, m.id)}/>
-                            <IconButton onClick={() => deleteHandler(m.id)}>
-                                <Delete/>
-                            </IconButton>
-                        </div>
-                    )
+                    return <Task key={m.id}
+                                 task={m}
+                                 deleteTask={deleteHandler}
+                                 renameTodolistTask={renameTodolistTaskHandler}
+                                 changeTaskStatus={checkedHandler}
+                                 todolistID={todolistID}/>
                 })}
             </div>
             <div>
@@ -98,4 +114,4 @@ export const Todolist = (props: PropsType) => {
             </div>
         </div>
     )
-}
+});

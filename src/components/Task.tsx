@@ -14,12 +14,11 @@ type TaskPropsType = {
 }
 
 export const Task = React.memo((props: TaskPropsType) => {
-    console.log("TASK");
     const {deleteTask, renameTodolistTask, changeTaskStatus, todolistID, task} = props;
 
     const renameTaskHandler = useCallback((newTitle: string) => {
         renameTodolistTask(newTitle, task.id);
-    }, []);
+    }, [task.id]);
 
     return (
         <div className={task.isDone ? s.isDone : ""}>

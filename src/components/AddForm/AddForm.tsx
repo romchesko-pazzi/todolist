@@ -9,7 +9,6 @@ type AddFormPropsType = {
 }
 
 export const AddForm = React.memo((props: AddFormPropsType) => {
-    console.log("ADDFORM");
     const {callback} = props
     const [value, setValue] = useState("");
     const [error, setError] = useState(false);

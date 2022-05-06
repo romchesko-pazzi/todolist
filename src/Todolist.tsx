@@ -1,12 +1,14 @@
 import React, {useCallback, useState} from 'react';
-import {FilterType} from "./App";
+import {FilterType, TodolistType} from "./App";
 import {AddForm} from "./components/AddForm/AddForm";
 import {EditableSpan} from "./components/EditableSpan/EditableSpan";
 import {Button, Grid, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./components/Task";
-import {useDispatch} from "react-redux";
-import {removeTaskAC} from "./state/tasksReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC} from "./state/tasksReducer";
+import {RootStateType} from "./state/store";
+import {removeTodolistAC, renameTodolistAC} from "./state/todolistsReducer";
 
 export type TaskType = {
     id: string
@@ -15,99 +17,80 @@ export type TaskType = {
 }
 
 type PropsType = {
-    todolistID: string
-    title: string
-    tasks: Array<TaskType>
-    deleteTask: (todolistID: string, taskID: string) => void
-    addTask: (todolistID: string, newTitle: string) => void
-    changeStatus: (todolistID: string, id: string, value: boolean) => void
-    updateTodolistTitle: (todolistID: string, newTitle: string) => void
-    renameTodolistTask: (todolistID: string, taskID: string, newTitle: string) => void
-    removeTodolist: (todolistID: string) => void
+    todolist: TodolistType
 }
 
 export const Todolist = React.memo((props: PropsType) => {
-    console.log("todolist");
-    const {
-        todolistID,
-        renameTodolistTask,
-        removeTodolist,
-        updateTodolistTitle,
-        title,
-        tasks,
-        deleteTask,
-        addTask,
-        changeStatus
-    } = props;
-
-
-
+    const {todolist} = props;
+    let tasks = useSelector<RootStateType, TaskType[]>(state => state.tasks[todolist.id]);
     const [filter, setFilter] = useState<FilterType>("all");
 
-    let filteredTasks = tasks;
+    const dispatch = useDispatch();
+
+
     if (filter === "completed") {
-        filteredTasks = tasks.filter(f => f.isDone);
+        tasks = tasks.filter(f => f.isDone);
     } else if (filter === "active") {
-        filteredTasks = tasks.filter(f => !f.isDone);
+        tasks = tasks.filter(f => !f.isDone);
     }
 
     const filterTask = useCallback((taskTitle: FilterType) => {
         setFilter(taskTitle);
     }, []);
 
-    const addTaskHandler = useCallback((title: string) => {
-        addTask(todolistID, title);
-    }, [addTask, todolistID]);
+    const addTask = useCallback((newTitle: string) => {
+        dispatch(addTaskAC(todolist.id, newTitle));
+    }, [todolist.id]);
 
-    const deleteHandler = useCallback((id: string) => deleteTask(todolistID, id), [todolistID, deleteTask]);
+    const deleteTask = useCallback((taskID: string) => {
+        dispatch(removeTaskAC(todolist.id, taskID))
+    }, [todolist.id]);
 
-    const filterHandler = useCallback((title: FilterType) => filterTask(title), [filterTask]);
+    const changeTaskStatus = useCallback((todolistID: string, id: string, event: boolean) => {
+        dispatch(changeTaskStatusAC(todolistID, event, id));
+    }, []);
 
-    const checkedHandler = useCallback((todolistID: string, id: string, event: boolean) => {
-        changeStatus(todolistID, id, event);
-    }, [changeStatus]);
+    const updateTodolistTitle = useCallback((newTitle: string) => {
+        dispatch(renameTodolistAC(todolist.id, newTitle));
+    }, [todolist.id]);
 
-    const updateTodolistTitleHandler = useCallback((newTitle: string) => {
-        updateTodolistTitle(todolistID, newTitle);
-    }, [updateTodolistTitle, todolistID]);
+    const renameTodolistTask = useCallback((newTitle: string, taskID: string) => {
+        dispatch(renameTaskAC(todolist.id, newTitle, taskID));
+    }, [todolist.id]);
 
-    const renameTodolistTaskHandler = useCallback((newTitle: string, mID: string) => {
-        renameTodolistTask(todolistID, mID, newTitle);
-    }, [todolistID, renameTodolistTask]);
-
-    const removeTodolistHandler = useCallback(() => {
-        removeTodolist(todolistID);
-    }, [todolistID, removeTodolist]);
+    const removeTodolist = useCallback(() => {
+        dispatch(removeTodolistAC(todolist.id));
+    }, [todolist.id]);
 
     return (
         <div>
             <h3>
-                <EditableSpan name={title} callback={updateTodolistTitleHandler}/>
-                <IconButton onClick={removeTodolistHandler}>
+                <EditableSpan name={todolist.title} callback={updateTodolistTitle}/>
+                <IconButton onClick={removeTodolist}>
                     <Delete/>
                 </IconButton>
             </h3>
             <div>
-                <AddForm name={"add task"} callback={addTaskHandler}/>
+                <AddForm name={"add task"} callback={addTask}/>
             </div>
             <div>
-                {filteredTasks.map(m => {
+                {tasks.map(m => {
                     return <Task key={m.id}
                                  task={m}
-                                 deleteTask={deleteHandler}
-                                 renameTodolistTask={renameTodolistTaskHandler}
-                                 changeTaskStatus={checkedHandler}
-                                 todolistID={todolistID}/>
+                                 deleteTask={deleteTask}
+                                 renameTodolistTask={renameTodolistTask}
+                                 changeTaskStatus={changeTaskStatus}
+                                 todolistID={todolist.id}/>
                 })}
             </div>
             <div>
                 <Grid container>
-                    <Button onClick={() => filterHandler("all")}
+                    <Button onClick={() => filterTask("all")}
                             variant={filter === "all" ? "contained" : "text"}>all</Button>
-                    <Button onClick={() => filterHandler("active")}
+                    <Button onClick={() => filterTask("active")}
                             color={"secondary"}
                             variant={filter === "active" ? "contained" : "text"}>active</Button>
-                    <Button onClick={() => filterHandler("completed")}
+                    <Button onClick={() => filterTask("completed")}
                             color={"success"}
                             variant={filter === "completed" ? "contained" : "text"}>completed</Button>
                 </Grid>

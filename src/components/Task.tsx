@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {memo, useCallback} from 'react';
 import s from "../Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan/EditableSpan";
@@ -13,7 +13,7 @@ type TaskPropsType = {
     todolistID: string
 }
 
-export const Task = React.memo((props: TaskPropsType) => {
+export const Task = memo((props: TaskPropsType) => {
     const {deleteTask, renameTodolistTask, changeTaskStatus, todolistID, task} = props;
 
     const renameTaskHandler = useCallback((newTitle: string) => {

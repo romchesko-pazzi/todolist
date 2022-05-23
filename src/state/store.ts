@@ -6,7 +6,7 @@ import {devToolsEnhancer} from "redux-devtools-extension";
 export type RootStateType = ReturnType<typeof rootReducer>
 
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     todolists: todolistsReducer,
     tasks: tasksReducer,
 })

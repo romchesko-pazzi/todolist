@@ -1,14 +1,14 @@
 import React, {useCallback, useState} from 'react';
-import {FilterType, TodolistType} from "./App";
-import {AddForm} from "./components/AddForm/AddForm";
-import {EditableSpan} from "./components/EditableSpan/EditableSpan";
 import {Button, Grid, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {Task} from "./components/Task";
 import {useDispatch, useSelector} from "react-redux";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC} from "./state/tasksReducer";
-import {RootStateType} from "./state/store";
-import {removeTodolistAC, renameTodolistAC} from "./state/todolistsReducer";
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC} from "../../state/tasksReducer";
+import {EditableSpan} from "../editableSpan/EditableSpan";
+import {FilterType, TodolistType} from "../../App";
+import {removeTodolistAC, renameTodolistAC} from "../../state/todolistsReducer";
+import {RootStateType} from "../../state/store";
+import {AddForm} from "../addForm/AddForm";
+import {Task} from "../task/Task";
 
 export type TaskType = {
     id: string

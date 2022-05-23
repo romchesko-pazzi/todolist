@@ -1,12 +1,12 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import {TaskType, Todolist} from './Todolist';
-import {AddForm} from "./components/AddForm/AddForm";
+import {AddForm} from "./components/addForm/AddForm";
 import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 import {addTodolistAC} from "./state/todolistsReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "./state/store";
+import {TaskType, Todolist} from "./components/todolist/Todolist";
 
 export type FilterType = "all" | "active" | "completed" | "";
 export type TodolistType = {
@@ -20,6 +20,7 @@ export type TasksStateType = {
 }
 
 export function App() {
+    console.log(typeof undefined)
 
     const dispatch = useDispatch();
     const todolists = useSelector<RootStateType, TodolistType[]>(state => state.todolists);
@@ -45,7 +46,7 @@ export function App() {
                     <AddForm name={"add todolist"} callback={addTodoList}/>
                 </Grid>
                 <Grid container spacing={7}>
-                    {todolists.map((m:TodolistType) => {
+                    {todolists.map((m: TodolistType) => {
                         return (
                             <Grid item key={m.id}>
                                 <Paper elevation={4} style={{padding: "20px"}}>

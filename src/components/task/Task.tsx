@@ -1,9 +1,9 @@
 import React, {memo, useCallback} from 'react';
-import s from "../Todolist.module.css";
+import s from "../todolist/Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
-import {EditableSpan} from "./EditableSpan/EditableSpan";
+import {EditableSpan} from "../editableSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskType} from "../Todolist";
+import {TaskType} from "../todolist/Todolist";
 
 type TaskPropsType = {
     task: TaskType

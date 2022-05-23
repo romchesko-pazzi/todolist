@@ -32,7 +32,9 @@ export const AddForm = React.memo((props: AddFormPropsType) => {
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setError(false);
-        setValue(event.currentTarget.value);
+        if (event.currentTarget.value.length < 20) {
+            setValue(event.currentTarget.value);
+        }
     }
 
     return (

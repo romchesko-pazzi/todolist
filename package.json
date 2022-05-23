@@ -32,12 +32,26 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public",
+    "jest:integration": "jest -c integration/jest.config.js",
+    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   },
   "browserslist": {
@@ -53,6 +67,23 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3"
+    "@storybook/addon-actions": "^6.5.4",
+    "@storybook/addon-essentials": "^6.5.4",
+    "@storybook/addon-interactions": "^6.5.4",
+    "@storybook/addon-links": "^6.5.4",
+    "@storybook/builder-webpack5": "^6.5.4",
+    "@storybook/manager-webpack5": "^6.5.4",
+    "@storybook/node-logger": "^6.5.4",
+    "@storybook/preset-create-react-app": "^4.1.1",
+    "@storybook/react": "^6.5.4",
+    "@storybook/testing-library": "^0.0.11",
+    "babel-plugin-named-exports-order": "^0.0.2",
+    "gh-pages": "^3.2.3",
+    "jest-image-snapshot": "^4.5.1",
+    "jest-puppeteer": "^6.1.0",
+    "prop-types": "^15.8.1",
+    "puppeteer": "^14.1.1",
+    "start-server-and-test": "^1.14.0",
+    "webpack": "^5.72.1"
   }
 }

@@ -10,7 +10,7 @@ export const GetTodolists = () => {
     useEffect(() => {
         API.getTodolists()
             .then(res => {
-                setState(res.data);
+                setState(res.data.map(m => m.title));
             })
             .catch(rej => {
                 console.log(rej);
@@ -22,7 +22,7 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
 
-    const title = "123";
+    const title = "ffffffff";
 
     useEffect(() => {
         API.createTodolist(title)
@@ -49,11 +49,11 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
 
-    let todolistId = "8b74a94a-a600-4631-bf5c-2f88de6a55b5";
-    let title = "VueJS";
+    let todolistId = "ecfdcd8b-950b-4ec0-ba72-b203c22293e9";
+    let title = "Flutter";
 
     useEffect(() => {
-        API.updateTodolist(todolistId,title)
+        API.updateTodolist(todolistId, title)
             .catch(console.log);
     }, [])
     return <div> {JSON.stringify(state)}</div>

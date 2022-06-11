@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react'
-import {API} from "../../api/todolist";
+import {todolistsAPI} from "../../api/todolist";
 
 export default {
-    title: 'API'
+    title: 'todolists-API'
 }
 
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        API.getTodolists()
+        todolistsAPI.getTodolists()
             .then(res => {
                 setState(res.data.map(m => m.title));
             })
@@ -25,7 +25,7 @@ export const CreateTodolist = () => {
     const title = "ffffffff";
 
     useEffect(() => {
-        API.createTodolist(title)
+        todolistsAPI.createTodolist(title)
             .then(res => {
                 setState(res.data)
             })
@@ -40,7 +40,7 @@ export const DeleteTodolist = () => {
     let todolistId = "a6c45828-cf2c-4e2c-8b53-bbe6c6bed37c";
 
     useEffect(() => {
-        API.deleteTodolist(todolistId)
+        todolistsAPI.deleteTodolist(todolistId)
             .catch(console.log);
     }, [])
     return <div> {JSON.stringify(state)}</div>
@@ -53,7 +53,7 @@ export const UpdateTodolistTitle = () => {
     let title = "Flutter";
 
     useEffect(() => {
-        API.updateTodolist(todolistId, title)
+        todolistsAPI.updateTodolist(todolistId, title)
             .catch(console.log);
     }, [])
     return <div> {JSON.stringify(state)}</div>

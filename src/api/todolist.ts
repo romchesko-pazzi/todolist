@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
-const instance = axios.create({
+export const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1/todo-lists/",
     withCredentials: true,
     headers: {
@@ -8,18 +8,18 @@ const instance = axios.create({
     }
 })
 
-export const API = {
-    getTodolists() {
+export const todolistsAPI = {
+    getTodolists(): Promise<AxiosResponse<TodoType[]>> {
         return instance.get<TodoType[]>("");
     },
-    createTodolist(title: string) {
+    createTodolist(title: string): Promise<AxiosResponse<CommonType<DataType<{}>>>> {
         return instance.post<CommonType<DataType<TodoType>>>("", {title});
     },
-    deleteTodolist(todolistId: string) {
-        return instance.delete<CommonType<{}>>(`${todolistId}`);
+    deleteTodolist(todolistId: string): Promise<AxiosResponse<CommonType>> {
+        return instance.delete<CommonType>(`${todolistId}`);
     },
-    updateTodolist(todolistId: string, title: string) {
-        return instance.put<CommonType<{}>>(`${todolistId}`, {title});
+    updateTodolist(todolistId: string, title: string): Promise<AxiosResponse<CommonType>> {
+        return instance.put<CommonType>(`${todolistId}`, {title});
     },
 }
 
@@ -34,7 +34,7 @@ type DataType<T> = {
     item: T
 }
 
-type CommonType<T> = {
+type CommonType<T = {}> = {
     resultCode: number
     messages: string[]
     fieldsErrors?: string[]

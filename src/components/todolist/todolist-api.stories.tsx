@@ -20,41 +20,84 @@ export const GetTodolists = () => {
 }
 
 export const CreateTodolist = () => {
-    const [state, setState] = useState<any>(null)
+    const [title, setTodolistTitle] = useState<string>("");
 
-    const title = "ffffffff";
+    const createTodolist = () => {
+        if (title !== "") {
+            todolistsAPI.createTodolist(title)
+                .catch(console.log);
+        }
+        setTodolistTitle("");
+    }
 
-    useEffect(() => {
-        todolistsAPI.createTodolist(title)
-            .then(res => {
-                setState(res.data)
-            })
-            .catch(console.log);
-    }, [])
-    return <div> {JSON.stringify(state)}</div>
+    return (
+        <div>
+            <div>
+                <input placeholder={"title"}
+                       value={title}
+                       onChange={(e) => setTodolistTitle(e.currentTarget.value)}/>
+            </div>
+            <div>
+                <button onClick={createTodolist}>create todolist</button>
+            </div>
+            <div>todolist {title} has been deleted</div>
+        </div>
+    );
 }
 
 export const DeleteTodolist = () => {
-    const [state, setState] = useState<any>(null)
+    const [todolistId, setTodolistId] = useState<string>("");
 
-    let todolistId = "a6c45828-cf2c-4e2c-8b53-bbe6c6bed37c";
+    const deleteTodolist = () => {
+        if (todolistId !== "") {
+            todolistsAPI.deleteTodolist(todolistId)
+                .catch(console.log);
+        }
+        setTodolistId("");
+    }
 
-    useEffect(() => {
-        todolistsAPI.deleteTodolist(todolistId)
-            .catch(console.log);
-    }, [])
-    return <div> {JSON.stringify(state)}</div>
+    return (
+        <div>
+            <div>
+                <input placeholder={"todolistId"}
+                       value={todolistId}
+                       onChange={(e) => setTodolistId(e.currentTarget.value)}/>
+            </div>
+            <div>
+                <button onClick={deleteTodolist}>delete todolist</button>
+            </div>
+            <div>todolist {todolistId} has been deleted</div>
+        </div>
+    );
 }
 
 export const UpdateTodolistTitle = () => {
-    const [state, setState] = useState<any>(null)
+    const [todolistId, setTodolistId] = useState<string>("");
+    const [title, setTodolistTitle] = useState<string>("");
 
-    let todolistId = "ecfdcd8b-950b-4ec0-ba72-b203c22293e9";
-    let title = "Flutter";
+    const updateTodolistTitle = () => {
+        if (title !== "") {
+            todolistsAPI.updateTodolist(todolistId, title)
+                .catch(console.log);
+        }
+        setTodolistTitle("");
+    }
 
-    useEffect(() => {
-        todolistsAPI.updateTodolist(todolistId, title)
-            .catch(console.log);
-    }, [])
-    return <div> {JSON.stringify(state)}</div>
+    return (
+        <div>
+            <div>
+                <input placeholder={"todolistTitle"}
+                       value={title}
+                       onChange={(e) => setTodolistTitle(e.currentTarget.value)}/>
+            </div>
+            <div>
+                <input placeholder={"todolistId"}
+                       value={todolistId}
+                       onChange={(e) => setTodolistId(e.currentTarget.value)}/>
+            </div>
+            <div>
+                <button onClick={updateTodolistTitle}>update todolist title</button>
+            </div>
+        </div>
+    );
 }

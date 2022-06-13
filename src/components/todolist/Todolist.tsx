@@ -9,12 +9,8 @@ import {removeTodolistAC, renameTodolistAC} from "../../state/todolistsReducer";
 import {RootStateType} from "../../state/store";
 import {AddForm} from "../addForm/AddForm";
 import {Task} from "../task/Task";
+import {TaskStatuses, TaskType} from "../../api/tasks";
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
 
 type PropsType = {
     todolist: TodolistType
@@ -29,9 +25,9 @@ export const Todolist = React.memo((props: PropsType) => {
 
 
     if (filter === "completed") {
-        tasks = tasks.filter(f => f.isDone);
+        tasks = tasks.filter(f => f.status === TaskStatuses.Completed);
     } else if (filter === "active") {
-        tasks = tasks.filter(f => !f.isDone);
+        tasks = tasks.filter(f => f.status === TaskStatuses.New);
     }
 
     const filterTask = useCallback((taskTitle: FilterType) => {
@@ -40,27 +36,27 @@ export const Todolist = React.memo((props: PropsType) => {
 
     const addTask = useCallback((newTitle: string) => {
         dispatch(addTaskAC(todolist.id, newTitle));
-    }, [todolist.id]);
+    }, [todolist.id, dispatch]);
 
     const deleteTask = useCallback((taskID: string) => {
         dispatch(removeTaskAC(todolist.id, taskID))
-    }, [todolist.id]);
+    }, [todolist.id, dispatch]);
 
     const changeTaskStatus = useCallback((todolistID: string, id: string, event: boolean) => {
         dispatch(changeTaskStatusAC(todolistID, event, id));
-    }, []);
+    }, [dispatch]);
 
     const updateTodolistTitle = useCallback((newTitle: string) => {
         dispatch(renameTodolistAC(todolist.id, newTitle));
-    }, [todolist.id]);
+    }, [todolist.id, dispatch]);
 
     const renameTodolistTask = useCallback((newTitle: string, taskID: string) => {
         dispatch(renameTaskAC(todolist.id, newTitle, taskID));
-    }, [todolist.id]);
+    }, [todolist.id, dispatch]);
 
     const removeTodolist = useCallback(() => {
         dispatch(removeTodolistAC(todolist.id));
-    }, [todolist.id]);
+    }, [todolist.id, dispatch]);
 
     return (
         <div>

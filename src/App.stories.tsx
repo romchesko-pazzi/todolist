@@ -4,6 +4,7 @@ import {rootReducer, RootStateType} from "./state/store";
 import {ComponentMeta} from "@storybook/react";
 import {createStore} from "redux";
 import {v1} from "uuid";
+import {TaskPriority, TaskStatuses} from "./api/tasks";
 
 export default {
     title: 'App',
@@ -13,12 +14,40 @@ export default {
 
 export const initialGlobalState = {
     todolists: [
-        {id: "todolistId1", title: "What to learn", filter: "all"}
+        {
+            id: "todolistId1",
+            title: "What to learn",
+            filter: "all",
+            addedDate: "",
+            order: 0,
+        }
     ],
     tasks: {
         "todolistId1": [
-            {id: v1(), title: "HTML&CSS", isDone: false},
-            {id: v1(), title: "JS", isDone: false}
+            {
+                id: v1(),
+                title: "HTML&CSS",
+                description: "",
+                todoListId: "",
+                order: 0,
+                status: TaskStatuses.New,
+                priority: TaskPriority.Low,
+                startDate: "",
+                deadline: "",
+                addedDate: "",
+            },
+            {
+                id: v1(),
+                title: "JS",
+                description: "",
+                todoListId: "",
+                order: 0,
+                status: TaskStatuses.New,
+                priority: TaskPriority.Low,
+                startDate: "",
+                deadline: "",
+                addedDate: "",
+            }
         ]
     }
 };

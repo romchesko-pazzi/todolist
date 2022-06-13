@@ -6,17 +6,18 @@ import {Menu} from "@mui/icons-material";
 import {addTodolistAC} from "./state/todolistsReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "./state/store";
-import {TaskType, Todolist} from "./components/todolist/Todolist";
+import {Todolist} from "./components/todolist/Todolist";
+import {TaskType} from "./api/tasks";
 
 export type FilterType = "all" | "active" | "completed" | "";
 export type TodolistType = {
     id: string
     title: string
-    filter: string
+    filter: FilterType
 }
 
 export type TasksStateType = {
-    [key: string]: Array<TaskType>
+    [key: string]: TaskType[]
 }
 
 export function App() {

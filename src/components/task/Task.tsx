@@ -3,7 +3,7 @@ import s from "../todolist/Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../editableSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskType} from "../todolist/Todolist";
+import {TaskType} from "../../api/tasks";
 
 type TaskPropsType = {
     task: TaskType
@@ -21,8 +21,8 @@ export const Task = memo((props: TaskPropsType) => {
     }, [task.id]);
 
     return (
-        <div className={task.isDone ? s.isDone : ""}>
-            <Checkbox checked={task.isDone}
+        <div className={task.status ? s.isDone : ""}>
+            <Checkbox checked={task.status === 2}
                       onChange={(e) => changeTaskStatus(todolistID, task.id, e.currentTarget.checked)}/>
             <EditableSpan name={task.title}
                           callback={renameTaskHandler}/>

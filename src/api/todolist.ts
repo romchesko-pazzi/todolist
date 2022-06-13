@@ -1,10 +1,11 @@
 import axios, {AxiosResponse} from "axios";
+import {TaskStatuses} from "./tasks";
 
-type TodoType = {
+export type TodoType = {
     id: string
-    addedDate: string
-    order: number
     title: string
+    addedDate: string
+    order: TaskStatuses
 }
 
 export type DataType<T = {}> = {

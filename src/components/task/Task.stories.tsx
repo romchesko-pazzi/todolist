@@ -1,5 +1,6 @@
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
+import {TaskPriority, TaskStatuses} from "../../api/tasks";
 
 export default {
     title: 'Task',
@@ -14,11 +15,20 @@ export const TaskExample = () => {
     return (
         <>
             <Task
-                task={{
-                    id: "1",
-                    title: "React",
-                    isDone: true,
-                }}
+                task={
+                    {
+                        id: "1",
+                        title: "React",
+                        description: "",
+                        todoListId: "",
+                        order: 0,
+                        status: TaskStatuses.Completed,
+                        priority: TaskPriority.Low,
+                        startDate: "",
+                        deadline: "",
+                        addedDate: "",
+                    }
+                }
                 deleteTask={deleteTask}
                 renameTodolistTask={renameTask}
                 changeTaskStatus={changeCheckbox}
@@ -27,7 +37,14 @@ export const TaskExample = () => {
                 task={{
                     id: "2",
                     title: "Redux",
-                    isDone: false,
+                    description: "",
+                    todoListId: "",
+                    order: 0,
+                    status: TaskStatuses.New,
+                    priority: TaskPriority.Low,
+                    startDate: "",
+                    deadline: "",
+                    addedDate: "",
                 }}
                 deleteTask={deleteTask}
                 renameTodolistTask={renameTask}

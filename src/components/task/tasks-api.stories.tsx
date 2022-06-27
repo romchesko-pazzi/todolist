@@ -8,7 +8,7 @@ export default {
 
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null);
-    const [todolistId, setTodolistId] = useState<string>("");
+    const [todolistId, settodolistId] = useState<string>("");
 
     const getTasks = () => {
         if (todolistId !== "") {
@@ -19,7 +19,7 @@ export const GetTasks = () => {
                 .catch(rej => {
                     console.log(rej)
                 })
-            setTodolistId("");
+            settodolistId("");
         }
     }
 
@@ -28,7 +28,7 @@ export const GetTasks = () => {
             <div>
                 <input placeholder={"todolistId"}
                        value={todolistId}
-                       onChange={(e) => setTodolistId(e.currentTarget.value)}/>
+                       onChange={(e) => settodolistId(e.currentTarget.value)}/>
             </div>
             <div>
                 <button onClick={getTasks}>get tasks</button>
@@ -41,7 +41,7 @@ export const GetTasks = () => {
 
 export const CreateTask = () => {
     const [state, setState] = useState<any>(null);
-    const [todolistId, setTodolistId] = useState<string>("");
+    const [todolistId, settodolistId] = useState<string>("");
     const [taskTitle, setTaskTitle] = useState<string>("");
 
     const createTask = () => {
@@ -55,7 +55,7 @@ export const CreateTask = () => {
                 });
         }
         setTaskTitle("");
-        setTodolistId("");
+        settodolistId("");
     }
 
     return (
@@ -63,7 +63,7 @@ export const CreateTask = () => {
             <div>
                 <input placeholder={"todolistId"}
                        value={todolistId}
-                       onChange={(e) => setTodolistId(e.currentTarget.value)}/>
+                       onChange={(e) => settodolistId(e.currentTarget.value)}/>
             </div>
             <div>
                 <input placeholder={"taskTitle"}
@@ -79,7 +79,7 @@ export const CreateTask = () => {
 }
 
 export const DeleteTask = () => {
-    const [todolistId, setTodolistId] = useState<string>("");
+    const [todolistId, settodolistId] = useState<string>("");
     const [taskId, setTaskId] = useState<string>("");
 
     const deleteTask = () => {
@@ -89,7 +89,7 @@ export const DeleteTask = () => {
                     console.log(rej)
                 })
         }
-        setTodolistId("");
+        settodolistId("");
         setTaskId("");
     }
 
@@ -98,7 +98,7 @@ export const DeleteTask = () => {
             <div>
                 <input placeholder={"todolistId"}
                        value={todolistId}
-                       onChange={(e) => setTodolistId(e.currentTarget.value)}/>
+                       onChange={(e) => settodolistId(e.currentTarget.value)}/>
             </div>
             <div>
                 <input placeholder={"taskId"}
@@ -114,7 +114,7 @@ export const DeleteTask = () => {
 }
 
 export const RenameTask = () => {
-    const [todolistId, setTodolistId] = useState<string>("");
+    const [todolistId, settodolistId] = useState<string>("");
     const [taskId, setTaskId] = useState<string>("");
     const [newTitle, setNewTitle] = useState<string>("");
 
@@ -144,7 +144,7 @@ export const RenameTask = () => {
             <div>
                 <input placeholder={"todolistId"}
                        value={todolistId}
-                       onChange={(e) => setTodolistId(e.currentTarget.value)}/>
+                       onChange={(e) => settodolistId(e.currentTarget.value)}/>
             </div>
             <div>
                 <input placeholder={"taskId"}

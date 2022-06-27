@@ -1,28 +1,36 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Button, Grid, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {useDispatch, useSelector} from "react-redux";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC} from "../../state/tasksReducer";
+import {
+    addNewTask,
+    addTaskAC,
+    changeTaskStatusAC, removeTask,
+    removeTaskAC,
+    renameTaskAC,
+    setTasks
+} from "../../state/tasksReducer";
 import {EditableSpan} from "../editableSpan/EditableSpan";
 import {FilterType, TodolistType} from "../../App";
-import {removeTodolistAC, renameTodolistAC} from "../../state/todolistsReducer";
-import {RootStateType} from "../../state/store";
 import {AddForm} from "../addForm/AddForm";
 import {Task} from "../task/Task";
-import {TaskStatuses, TaskType} from "../../api/tasks";
-
+import {TaskStatuses} from "../../api/tasks";
+import {useAppDispatch, useAppSelector} from "../../state/hooks";
+import {removeTodolist, renameTodolist} from "../../state/todolistsReducer";
 
 type PropsType = {
     todolist: TodolistType
 }
 
 export const Todolist = React.memo((props: PropsType) => {
+
+    useEffect(() => {
+        dispatch(setTasks(todolist.id));
+    }, []);
+
     const {todolist} = props;
-    let tasks = useSelector<RootStateType, TaskType[]>(state => state.tasks[todolist.id]);
+    const dispatch = useAppDispatch();
+    let tasks = useAppSelector(state => state.tasks[todolist.id]);
     const [filter, setFilter] = useState<FilterType>("all");
-
-    const dispatch = useDispatch();
-
 
     if (filter === "completed") {
         tasks = tasks.filter(f => f.status === TaskStatuses.Completed);
@@ -35,34 +43,34 @@ export const Todolist = React.memo((props: PropsType) => {
     }, []);
 
     const addTask = useCallback((newTitle: string) => {
-        dispatch(addTaskAC(todolist.id, newTitle));
+        dispatch(addNewTask(newTitle, todolist.id));
     }, [todolist.id, dispatch]);
 
-    const deleteTask = useCallback((taskID: string) => {
-        dispatch(removeTaskAC(todolist.id, taskID))
+    const deleteTask = useCallback((taskId: string) => {
+        dispatch(removeTask(todolist.id, taskId))
     }, [todolist.id, dispatch]);
 
-    const changeTaskStatus = useCallback((todolistID: string, id: string, event: boolean) => {
-        dispatch(changeTaskStatusAC(todolistID, event, id));
+    const changeTaskStatus = useCallback((todolistId: string, id: string, event: boolean) => {
+        dispatch(changeTaskStatusAC(todolistId, event ? TaskStatuses.Completed : TaskStatuses.New, id));
     }, [dispatch]);
 
     const updateTodolistTitle = useCallback((newTitle: string) => {
-        dispatch(renameTodolistAC(todolist.id, newTitle));
+        dispatch(renameTodolist(todolist.id, newTitle));
     }, [todolist.id, dispatch]);
 
     const renameTodolistTask = useCallback((newTitle: string, taskID: string) => {
         dispatch(renameTaskAC(todolist.id, newTitle, taskID));
     }, [todolist.id, dispatch]);
 
-    const removeTodolist = useCallback(() => {
-        dispatch(removeTodolistAC(todolist.id));
+    const deleteTodolist = useCallback(() => {
+        dispatch(removeTodolist(todolist.id));
     }, [todolist.id, dispatch]);
 
     return (
         <div>
             <h3>
                 <EditableSpan name={todolist.title} callback={updateTodolistTitle}/>
-                <IconButton onClick={removeTodolist}>
+                <IconButton onClick={deleteTodolist}>
                     <Delete/>
                 </IconButton>
             </h3>
@@ -76,7 +84,7 @@ export const Todolist = React.memo((props: PropsType) => {
                                  deleteTask={deleteTask}
                                  renameTodolistTask={renameTodolistTask}
                                  changeTaskStatus={changeTaskStatus}
-                                 todolistID={todolist.id}/>
+                                 todolistId={todolist.id}/>
                 })}
             </div>
             <div>

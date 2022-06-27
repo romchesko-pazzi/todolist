@@ -32,7 +32,7 @@ export const TaskExample = () => {
                 deleteTask={deleteTask}
                 renameTodolistTask={renameTask}
                 changeTaskStatus={changeCheckbox}
-                todolistID={"1"}/>
+                todolistId={"1"}/>
             <Task
                 task={{
                     id: "2",
@@ -49,7 +49,7 @@ export const TaskExample = () => {
                 deleteTask={deleteTask}
                 renameTodolistTask={renameTask}
                 changeTaskStatus={changeCheckbox}
-                todolistID={"2"}/>
+                todolistId={"2"}/>
         </>
     )
 }

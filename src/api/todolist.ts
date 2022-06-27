@@ -1,11 +1,10 @@
 import axios, {AxiosResponse} from "axios";
-import {TaskStatuses} from "./tasks";
 
 export type TodoType = {
     id: string
     title: string
     addedDate: string
-    order: TaskStatuses
+    order: number
 }
 
 export type DataType<T = {}> = {
@@ -31,7 +30,7 @@ export const todolistsAPI = {
     getTodolists(): Promise<AxiosResponse<TodoType[]>> {
         return instance.get<TodoType[]>("");
     },
-    createTodolist(title: string): Promise<AxiosResponse<CommonType<DataType>>> {
+    createTodolist(title: string): Promise<AxiosResponse<CommonType<DataType<TodoType>>>> {
         return instance.post<CommonType<DataType<TodoType>>>("", {title});
     },
     deleteTodolist(todolistId: string): Promise<AxiosResponse<CommonType>> {

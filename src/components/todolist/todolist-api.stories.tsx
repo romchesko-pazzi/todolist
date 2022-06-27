@@ -46,14 +46,14 @@ export const CreateTodolist = () => {
 }
 
 export const DeleteTodolist = () => {
-    const [todolistId, setTodolistId] = useState<string>("");
+    const [todolistId, settodolistId] = useState<string>("");
 
     const deleteTodolist = () => {
         if (todolistId !== "") {
             todolistsAPI.deleteTodolist(todolistId)
                 .catch(console.log);
         }
-        setTodolistId("");
+        settodolistId("");
     }
 
     return (
@@ -61,7 +61,7 @@ export const DeleteTodolist = () => {
             <div>
                 <input placeholder={"todolistId"}
                        value={todolistId}
-                       onChange={(e) => setTodolistId(e.currentTarget.value)}/>
+                       onChange={(e) => settodolistId(e.currentTarget.value)}/>
             </div>
             <div>
                 <button onClick={deleteTodolist}>delete todolist</button>
@@ -72,7 +72,7 @@ export const DeleteTodolist = () => {
 }
 
 export const UpdateTodolistTitle = () => {
-    const [todolistId, setTodolistId] = useState<string>("");
+    const [todolistId, settodolistId] = useState<string>("");
     const [title, setTodolistTitle] = useState<string>("");
 
     const updateTodolistTitle = () => {
@@ -93,7 +93,7 @@ export const UpdateTodolistTitle = () => {
             <div>
                 <input placeholder={"todolistId"}
                        value={todolistId}
-                       onChange={(e) => setTodolistId(e.currentTarget.value)}/>
+                       onChange={(e) => settodolistId(e.currentTarget.value)}/>
             </div>
             <div>
                 <button onClick={updateTodolistTitle}>update todolist title</button>

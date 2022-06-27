@@ -47,7 +47,7 @@ export const tasksAPI = {
     getTasks(todolistId: string): Promise<AxiosResponse<GetType>> {
         return instance.get<GetType>(`${todolistId}/tasks`);
     },
-    createTask(todolistId: string, title: string): Promise<AxiosResponse<CommonType<DataType>>> {
+    createTask(todolistId: string, title: string): Promise<AxiosResponse<CommonType<DataType<TaskType>>>> {
         return instance.post<CommonType<DataType<TaskType>>>(`${todolistId}/tasks`, {title});
     },
     deleteTask(todolistId: string, taskId: string): Promise<AxiosResponse<CommonType>> {

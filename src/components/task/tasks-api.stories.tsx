@@ -123,8 +123,8 @@ export const RenameTask = () => {
         description: "hehe",
         status: 1111111111,
         priority: 11111111111,
-        startDate: new Date(),
-        deadline: new Date(),
+        startDate: "date",
+        deadline: "date",
     }
 
     const renameTask = () => {

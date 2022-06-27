@@ -28,13 +28,13 @@ export type TaskType = {
     deadline: string
     addedDate: string
 }
-type UpdateBody = {
+export type UpdateBody = {
     title: string
     description: string
     status: TaskStatuses
     priority: number
-    startDate: Date
-    deadline: Date
+    startDate: string
+    deadline: string
 }
 
 type GetType = {

@@ -1,4 +1,5 @@
 import axios, {AxiosResponse} from "axios";
+import {API_KEY} from "./api-key";
 
 export type TodoType = {
     id: string
@@ -22,7 +23,7 @@ export const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1/todo-lists/",
     withCredentials: true,
     headers: {
-        "API-KEY": "b586ccec-80f3-4fec-93a0-9cb544188701"
+        "API-KEY": API_KEY
     }
 })
 

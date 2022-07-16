@@ -2,17 +2,18 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {IconButton, TextField} from "@mui/material";
 import {AddCircle} from "@mui/icons-material";
 import s from "./AddForm.module.css"
+import {ErrorsStatusType} from "../../state/appReducer";
 
 type AddFormPropsType = {
     callback: (title: string) => void,
     name: string,
+    disabled?: ErrorsStatusType
 }
 
 export const AddForm = React.memo((props: AddFormPropsType) => {
-    const {callback} = props
+    const {callback, disabled} = props
     const [value, setValue] = useState("");
     const [error, setError] = useState(false);
-
 
     const onClickHandler = () => {
         if (value.trim() !== "") {
@@ -32,10 +33,10 @@ export const AddForm = React.memo((props: AddFormPropsType) => {
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setError(false);
-        if (event.currentTarget.value.length < 20) {
-            setValue(event.currentTarget.value);
-        }
+        setValue(event.currentTarget.value);
     }
+
+    const isDisabled = disabled === "loading"
 
     return (
         <div className={s.main}>
@@ -44,10 +45,11 @@ export const AddForm = React.memo((props: AddFormPropsType) => {
                 error={error}
                 label={"Title"}
                 value={value}
+                disabled={isDisabled}
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}/>
             <div className={s.btn}>
-                <IconButton onClick={onClickHandler}>
+                <IconButton onClick={onClickHandler} disabled={isDisabled}>
                     <AddCircle color={"primary"}/>
                 </IconButton>
             </div>

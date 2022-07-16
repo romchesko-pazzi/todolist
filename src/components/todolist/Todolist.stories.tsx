@@ -3,7 +3,7 @@ import {Provider} from "react-redux";
 import {ComponentMeta} from "@storybook/react";
 import {createStore} from "redux";
 import {rootReducer, RootStateType} from "../../state/store";
-import {initialGlobalState} from "../../App.stories";
+import {initialGlobalState} from "../../app/App.stories";
 
 export default {
     title: 'Todolist',
@@ -19,5 +19,8 @@ export const TodolistExample = () => {
         id: storyBookStore.getState().todolists[0].id,
         title: storyBookStore.getState().todolists[0].title,
         filter: storyBookStore.getState().todolists[0].filter,
+        addedDate: storyBookStore.getState().todolists[0].addedDate,
+        order: storyBookStore.getState().todolists[0].order,
+        todoStatus: storyBookStore.getState().todolists[0].todoStatus,
     }}/>
 }

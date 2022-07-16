@@ -1,33 +1,19 @@
-import {TasksStateType} from "../App";
-import {AddTodolistType, deleteTodolistType, SetTodolistsType, TodolistActions} from "./todolistsReducer";
-import {tasksAPI, TaskType, UpdateBody} from "../api/tasks";
+import {AddTodolistType, DeleteTodolistType, SetTodolistsType, TodolistActions} from "./todolistsReducer";
+import {ResponseTaskType, tasksAPI, UpdateBody} from "../api/tasks";
 import {AppThunkType} from "./hooks";
+import {ErrorsStatusType, setError, setLoadingBar} from "./appReducer";
 
 enum TasksActions {
-    SET_TASKS = "SET_TASKS",
-    ADD_TASK = "ADD_TASK",
-    DELETE_TASK = "DELETE_TASK",
-    UPDATE_TASK = "UPDATE_TASK",
+    SET_TASKS = "TASKS/SET_TASKS",
+    ADD_TASK = "TASKS/ADD_TASK",
+    DELETE_TASK = "TASKS/DELETE_TASK",
+    UPDATE_TASK = "TASKS/UPDATE_TASK",
+    DISABLE_BTN = "TASKS/DISABLE_BUTTON",
 }
 
-export type TasksActionType =
-    RemoveTaskType
-    | AddTaskType
-    | UpdateTaskType
-    | AddTodolistType
-    | deleteTodolistType
-    | SetTodolistsType
-    | SetTasksType;
-type RemoveTaskType = ReturnType<typeof removeTaskAC>
-type AddTaskType = ReturnType<typeof addTaskAC>
-type UpdateTaskType = ReturnType<typeof updateTaskAC>
-type SetTasksType = ReturnType<typeof setTasksAC>
+const initialState: TaskType = {}
 
-
-const initialState: TasksStateType = {}
-
-
-export const tasksReducer = (state = initialState, action: TasksActionType): TasksStateType => {
+export const TasksReducer = (state = initialState, action: TasksActionType): TaskType => {
     switch (action.type) {
         case TasksActions.DELETE_TASK: {
             return {
@@ -45,9 +31,7 @@ export const tasksReducer = (state = initialState, action: TasksActionType): Tas
             return {
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(m => m.id === action.payload.taskId ? {
-                    ...m,
-                    title: action.payload.task.title,
-                    status: action.payload.task.status,
+                    ...m, ...action.payload.task
                 } : m)
             };
         }
@@ -69,6 +53,15 @@ export const tasksReducer = (state = initialState, action: TasksActionType): Tas
         case TasksActions.SET_TASKS: {
             return {...state, [action.payload.todolistId]: action.payload.tasks}
         }
+        case TasksActions.DISABLE_BTN: {
+            return {
+                ...state,
+                [action.payload.todolistId]: state[action.payload.todolistId].map(m => m.id === action.payload.taskId ? {
+                    ...m,
+                    taskStatus: action.payload.value
+                } : m)
+            }
+        }
         default:
             return state
     }
@@ -80,7 +73,7 @@ export const removeTaskAC = (todolistId: string, taskId: string) => {
         payload: {todolistId, taskId}
     } as const
 }
-export const addTaskAC = (task: TaskType) => {
+export const addTaskAC = (task: ResponseTaskType) => {
     return {
         type: TasksActions.ADD_TASK,
         payload: {task}
@@ -92,43 +85,96 @@ export const updateTaskAC = (todolistId: string, task: UpdateBody, taskId: strin
         payload: {todolistId, taskId, task}
     } as const
 }
-const setTasksAC = (todolistId: string, tasks: TaskType[]) => {
+const setTasksAC = (todolistId: string, tasks: ResponseTaskType[]) => {
     return {
         type: TasksActions.SET_TASKS,
         payload: {todolistId, tasks}
     } as const
 }
+const disableDeleteButton = (todolistId: string, taskId: string, value: ErrorsStatusType) => {
+    return {
+        type: TasksActions.DISABLE_BTN,
+        payload: {todolistId, taskId, value}
+    } as const
+}
 
-
+// TC
 export const removeTask = (todolistId: string, taskId: string): AppThunkType => async (dispatch) => {
     try {
+        dispatch(disableDeleteButton(todolistId, taskId, "loading"))
+        dispatch(setLoadingBar("loading"));
         await tasksAPI.deleteTask(todolistId, taskId);
         dispatch(removeTaskAC(todolistId, taskId));
-    } catch (err) {
-        console.log(err)
+    } catch (err: any) {
+        dispatch(setError(err.message))
+    } finally {
+        dispatch(setLoadingBar("finished"));
     }
 }
 export const addNewTask = (title: string, todolistId: string): AppThunkType => async (dispatch) => {
-    const response = await tasksAPI.createTask(todolistId, title);
-    const task = response.data.data.item
-    dispatch(addTaskAC(task));
-}
-export const updateTask = (task: TaskType): AppThunkType => {
-    return async (dispatch) => {
-        if (!task) return;
-        const body: UpdateBody = {
-            title: task.title,
-            description: task.description,
-            status: task.status,
-            priority: task.priority,
-            startDate: task.startDate,
-            deadline: task.deadline,
+    try {
+        dispatch(setLoadingBar("loading"));
+        const response = await tasksAPI.createTask(todolistId, title);
+        if (response.data.messages.length > 0) {
+            const error = response.data.messages[0];
+            dispatch(setError(error))
+            return
         }
+        const task = response.data.data.item
+        dispatch(addTaskAC(task));
+    } catch (err: any) {
+        dispatch(setError(err.message));
+    } finally {
+        dispatch(setLoadingBar("finished"));
+    }
+}
+export const updateTask = (task: ResponseTaskType): AppThunkType => async (dispatch) => {
+    if (!task) return;
+    const body: UpdateBody = {
+        title: task.title,
+        description: task.description,
+        status: task.status,
+        priority: task.priority,
+        startDate: task.startDate,
+        deadline: task.deadline,
+    }
+    try {
         await tasksAPI.renameTask(task.todoListId, task.id, body);
         dispatch(updateTaskAC(task.todoListId, body, task.id));
-    };
-}
+    } catch (err: any) {
+        dispatch(setError(err.message))
+    }
+
+};
 export const setTasks = (todolistId: string): AppThunkType => async (dispatch) => {
-    const response = await tasksAPI.getTasks(todolistId);
-    dispatch(setTasksAC(todolistId, response.data.items));
+    try {
+        dispatch(setLoadingBar("loading"));
+        const response = await tasksAPI.getTasks(todolistId);
+        dispatch(setTasksAC(todolistId, response.data.items));
+    } catch (err) {
+        throw new Error("error on getting tasks");
+    } finally {
+        dispatch(setLoadingBar("finished"));
+
+    }
+}
+
+// types
+export type TasksActionType =
+    RemoveTaskType
+    | AddTaskType
+    | UpdateTaskType
+    | AddTodolistType
+    | DeleteTodolistType
+    | SetTodolistsType
+    | SetTasksType
+    | DisableDeleteButtonType;
+type RemoveTaskType = ReturnType<typeof removeTaskAC>
+type AddTaskType = ReturnType<typeof addTaskAC>
+type UpdateTaskType = ReturnType<typeof updateTaskAC>
+type SetTasksType = ReturnType<typeof setTasksAC>
+type DisableDeleteButtonType = ReturnType<typeof disableDeleteButton>
+
+export type TaskType = {
+    [key: string]: ResponseTaskType[]
 }

@@ -1,25 +1,14 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {AddForm} from "./components/addForm/AddForm";
-import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {AddForm} from "../components/addForm/AddForm";
+import {AppBar, Container, Grid, IconButton, LinearProgress, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {addTodolist, addTodolistAC, setTodolists} from "./state/todolistsReducer";
-import {Todolist} from "./components/todolist/Todolist";
-import {TaskType} from "./api/tasks";
-import {useAppDispatch, useAppSelector} from "./state/hooks";
+import {addTodolist, setTodolists, TodolistType} from "../state/todolistsReducer";
+import {Todolist} from "../components/todolist/Todolist";
+import {useAppDispatch, useAppSelector} from "../state/hooks";
+import {ErrorSnackBar} from "../components/errorSnackBar/errorSnackBar";
 
-export type FilterType = "all" | "active" | "completed" | "";
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterType
-}
-
-export type TasksStateType = {
-    [key: string]: TaskType[]
-}
-
-export function App() {
+export const App = () => {
 
     useEffect(() => {
         dispatch(setTodolists());
@@ -27,7 +16,7 @@ export function App() {
 
     const dispatch = useAppDispatch();
     const todolists = useAppSelector(state => state.todolists);
-
+    const appStatus = useAppSelector(state => state.app.appStatus);
     const addTodoList = useCallback((titleOfTodolist: string) => {
         dispatch(addTodolist(titleOfTodolist));
     }, [dispatch]);
@@ -44,11 +33,15 @@ export function App() {
                     </Typography>
                 </Toolbar>
             </AppBar>
+            {appStatus === "loading" && <LinearProgress/>}
             <Container fixed>
                 <Grid container style={{padding: "15px"}}>
-                    <AddForm name={"add todolist"} callback={addTodoList}/>
+                    <AddForm
+                        name={"add todolist"}
+                        callback={addTodoList}
+                    />
                 </Grid>
-                <Grid container spacing={7}>
+                <Grid container spacing={5}>
                     {todolists.map((m: TodolistType) => {
                         return (
                             <Grid item key={m.id}>
@@ -63,6 +56,10 @@ export function App() {
                     })}
                 </Grid>
             </Container>
+            <ErrorSnackBar/>
         </div>
     );
 }
+
+// types
+export type FilterType = "all" | "active" | "completed" | "";

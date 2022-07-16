@@ -8,6 +8,6 @@ export default {
 
 const callback = action("Button was pressed");
 
-export const AddFormExample = () =>{
+export const AddFormExample = () => {
     return <AddForm name={"123"} callback={callback}/>
 }

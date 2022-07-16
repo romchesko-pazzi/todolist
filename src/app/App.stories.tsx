@@ -1,10 +1,10 @@
 import {App} from "./App";
 import {Provider} from "react-redux";
-import {rootReducer, RootStateType} from "./state/store";
+import {rootReducer, RootStateType} from "../state/store";
 import {ComponentMeta} from "@storybook/react";
 import {createStore} from "redux";
 import {v1} from "uuid";
-import {TaskPriority, TaskStatuses} from "./api/tasks";
+import {TaskPriority, TaskStatuses} from "../api/tasks";
 
 export default {
     title: 'App',
@@ -18,6 +18,7 @@ export const initialGlobalState = {
             id: "todolistId1",
             title: "What to learn",
             filter: "all",
+            todoStatus: "idle",
             addedDate: "",
             order: 0,
         }
@@ -35,6 +36,7 @@ export const initialGlobalState = {
                 startDate: "",
                 deadline: "",
                 addedDate: "",
+                taskStatus: "idle"
             },
             {
                 id: v1(),
@@ -47,8 +49,13 @@ export const initialGlobalState = {
                 startDate: "",
                 deadline: "",
                 addedDate: "",
+                taskStatus: "idle"
             }
         ]
+    },
+    app: {
+        appStatus: "idle",
+        error: ""
     }
 };
 export const storyBookStore = createStore(rootReducer, initialGlobalState as RootStateType);

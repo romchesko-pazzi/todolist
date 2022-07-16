@@ -1,6 +1,7 @@
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
 import {TaskPriority, TaskStatuses} from "../../api/tasks";
+import {ErrorsStatusType} from "../../state/appReducer";
 
 export default {
     title: 'Task',
@@ -27,6 +28,7 @@ export const TaskExample = () => {
                         startDate: "",
                         deadline: "",
                         addedDate: "",
+                        taskStatus: "idle"
                     }
                 }
                 deleteTask={deleteTask}
@@ -45,11 +47,12 @@ export const TaskExample = () => {
                     startDate: "",
                     deadline: "",
                     addedDate: "",
+                    taskStatus: "idle"
                 }}
                 deleteTask={deleteTask}
                 renameTodolistTask={renameTask}
                 changeTaskStatus={changeCheckbox}
-                />
+            />
         </>
     )
 }

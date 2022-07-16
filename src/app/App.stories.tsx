@@ -10,7 +10,7 @@ export default {
     title: 'App',
     component: App,
     decorators: [(Story) => (<Provider store={storyBookStore}>{Story()}</Provider>)]
-} as ComponentMeta<typeof App>
+} as ComponentMeta<typeof App>;
 
 export const initialGlobalState = {
     todolists: [
@@ -55,12 +55,7 @@ export const initialGlobalState = {
     },
     app: {
         appStatus: "idle",
-        error: ""
+        error: "",
     }
 };
 export const storyBookStore = createStore(rootReducer, initialGlobalState as RootStateType);
-
-
-export const AppExample = () => {
-    return <App/>
-}

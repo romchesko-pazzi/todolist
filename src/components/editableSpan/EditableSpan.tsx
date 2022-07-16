@@ -20,8 +20,8 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.currentTarget.value.length > 11) {
-            dispatch(setError("maximum length is 11"))
-            return
+            dispatch(setError("maximum length is 11"));
+            return;
         }
         setValue(event.currentTarget.value);
     }

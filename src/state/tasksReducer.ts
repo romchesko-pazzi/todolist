@@ -11,7 +11,7 @@ enum TasksActions {
     DISABLE_BTN = "TASKS/DISABLE_BUTTON",
 }
 
-const initialState: TaskType = {}
+const initialState: TaskType = {};
 
 export const TasksReducer = (state = initialState, action: TasksActionType): TaskType => {
     switch (action.type) {
@@ -19,13 +19,13 @@ export const TasksReducer = (state = initialState, action: TasksActionType): Tas
             return {
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].filter(f => f.id !== action.payload.taskId)
-            }
+            };
         }
         case TasksActions.ADD_TASK: {
             return {
                 ...state,
                 [action.payload.task.todoListId]: [action.payload.task, ...state[action.payload.task.todoListId]]
-            }
+            };
         }
         case TasksActions.UPDATE_TASK: {
             return {
@@ -36,22 +36,22 @@ export const TasksReducer = (state = initialState, action: TasksActionType): Tas
             };
         }
         case TodolistActions.ADD_TODOLIST: {
-            return {...state, [action.payload.todolist.id]: []}
+            return {...state, [action.payload.todolist.id]: []};
         }
         case TodolistActions.REMOVE_TODOLIST: {
-            const copy = {...state}
+            const copy = {...state};
             delete copy[action.payload.todolistId];
             return copy;
         }
         case TodolistActions.SET_TODOLISTS: {
             const copy = {...state};
             action.payload.todolists.forEach(todolist => {
-                copy[todolist.id] = []
+                copy[todolist.id] = [];
             })
             return copy;
         }
         case TasksActions.SET_TASKS: {
-            return {...state, [action.payload.todolistId]: action.payload.tasks}
+            return {...state, [action.payload.todolistId]: action.payload.tasks};
         }
         case TasksActions.DISABLE_BTN: {
             return {
@@ -60,12 +60,12 @@ export const TasksReducer = (state = initialState, action: TasksActionType): Tas
                     ...m,
                     taskStatus: action.payload.value
                 } : m)
-            }
+            };
         }
         default:
-            return state
+            return state;
     }
-}
+};
 
 export const removeTaskAC = (todolistId: string, taskId: string) => {
     return {

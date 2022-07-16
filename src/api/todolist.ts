@@ -24,7 +24,7 @@ export const instance = axios.create({
     withCredentials: true,
     headers: {
         "API-KEY": API_KEY
-    }
+    },
 })
 
 export const todolistsAPI = {

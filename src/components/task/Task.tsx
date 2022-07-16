@@ -17,7 +17,7 @@ export const Task = memo((props: TaskPropsType) => {
         const {deleteTask, renameTodolistTask, changeTaskStatus, task} = props;
 
         const renameTaskHandler = useCallback((newTitle: string) => {
-            const newTask = {...task, title: newTitle}
+            const newTask = {...task, title: newTitle};
             renameTodolistTask(newTask);
         }, [task.id]);
 

@@ -8,7 +8,7 @@ export enum TodolistActions {
     RENAME_TODOLIST = "TODOLIST/RENAME_TODOLIST",
     ADD_TODOLIST = "TODOLIST/ADD_TODOLIST",
     REMOVE_TODOLIST = "TODOLIST/REMOVE_TODOLIST",
-    DISABLE_TODOLIST = "TODOLIST/DISABLE_TODOLIST"
+    DISABLE_TODOLIST = "TODOLIST/DISABLE_TODOLIST",
 }
 
 const initialState: TodolistType[] = [];
@@ -40,31 +40,31 @@ export const deleteTodolistAC = (todolistId: string) => {
     return {
         type: TodolistActions.REMOVE_TODOLIST,
         payload: {todolistId}
-    } as const
+    } as const;
 }
 export const addTodolistAC = (todolist: TodoType) => {
     return {
         type: TodolistActions.ADD_TODOLIST,
         payload: {todolist}
-    } as const
+    } as const;
 }
 export const renameTodolistAC = (todolistId: string, newTitle: string) => {
     return {
         type: TodolistActions.RENAME_TODOLIST,
         payload: {todolistId, newTitle}
-    } as const
+    } as const;
 }
 export const setTodolistsAC = (todolists: TodoType[]) => {
     return {
         type: TodolistActions.SET_TODOLISTS,
         payload: {todolists}
-    } as const
+    } as const;
 }
 export const disableButton = (todolistId: string, value: ErrorsStatusType) => {
     return {
         type: TodolistActions.DISABLE_TODOLIST,
         payload: {todolistId, value}
-    } as const
+    } as const;
 }
 
 // TC
@@ -87,7 +87,7 @@ export const addTodolist = (title: string): AppThunkType => async (dispatch) => 
         if (response.data.messages.length > 0) {
             const error = response.data.messages[0];
             dispatch(setError(error));
-            return
+            return;
         }
         const todolist = response.data.data.item;
         dispatch(addTodolistAC(todolist));

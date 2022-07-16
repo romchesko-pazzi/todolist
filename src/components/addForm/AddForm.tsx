@@ -1,17 +1,17 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {IconButton, TextField} from "@mui/material";
 import {AddCircle} from "@mui/icons-material";
-import s from "./AddForm.module.css"
+import s from "./AddForm.module.css";
 import {ErrorsStatusType} from "../../state/appReducer";
 
 type AddFormPropsType = {
     callback: (title: string) => void,
     name: string,
-    disabled?: ErrorsStatusType
+    disabled?: ErrorsStatusType,
 }
 
 export const AddForm = React.memo((props: AddFormPropsType) => {
-    const {callback, disabled} = props
+    const {callback, disabled} = props;
     const [value, setValue] = useState("");
     const [error, setError] = useState(false);
 
@@ -27,7 +27,7 @@ export const AddForm = React.memo((props: AddFormPropsType) => {
 
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-            onClickHandler()
+            onClickHandler();
         }
     }
 
@@ -36,7 +36,7 @@ export const AddForm = React.memo((props: AddFormPropsType) => {
         setValue(event.currentTarget.value);
     }
 
-    const isDisabled = disabled === "loading"
+    const isDisabled = disabled === "loading";
 
     return (
         <div className={s.main}>

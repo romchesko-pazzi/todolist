@@ -1,65 +1,60 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import {AddForm} from "../components/addForm/AddForm";
-import {AppBar, Container, Grid, IconButton, LinearProgress, Paper, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {addTodolist, setTodolists, TodolistType} from "../state/todolistsReducer";
-import {Todolist} from "../components/todolist/Todolist";
 import {useAppDispatch, useAppSelector} from "../state/hooks";
-import {ErrorSnackBar} from "../components/errorSnackBar/errorSnackBar";
+import {ErrorSnackBar} from "../components/errorSnackBar/ErrorSnackBar";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {Todolists} from "../components/todolist/Todolists";
+import {LoginForm} from "../components/login/LoginForm";
+import {initializeApp} from "../state/reducers/appReducer";
+import {logoutTC} from "../state/reducers/authReducer";
 
 export const App = () => {
 
-    useEffect(() => {
-        dispatch(setTodolists());
-    }, []);
-
+    const {isAuth} = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
-    const todolists = useAppSelector(state => state.todolists);
     const appStatus = useAppSelector(state => state.app.appStatus);
-    const addTodoList = useCallback((titleOfTodolist: string) => {
-        dispatch(addTodolist(titleOfTodolist));
-    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(initializeApp());
+    }, [isAuth]);
+
+    if (!isAuth) {
+        return <LinearProgress/>;
+    }
+
+    const logout = () => {
+        dispatch(logoutTC());
+    }
 
     return (
-        <div className="App">
-            <AppBar position="static">
-                <Toolbar variant="dense">
-                    <IconButton edge="start" color="inherit" sx={{mr: 2}}>
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h5" color="inherit" component="div">
-                        Todolist
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            {appStatus === "loading" && <LinearProgress/>}
-            <Container fixed>
-                <Grid container style={{padding: "15px"}}>
-                    <AddForm
-                        name={"add todolist"}
-                        callback={addTodoList}
-                    />
-                </Grid>
-                <Grid container spacing={5}>
-                    {todolists.map((m: TodolistType) => {
-                        return (
-                            <Grid item key={m.id}>
-                                <Paper elevation={4} style={{padding: "20px"}}>
-                                    <Todolist
-                                        todolist={m}
-                                        key={m.id}
-                                    />
-                                </Paper>
-                            </Grid>
-                        )
-                    })}
-                </Grid>
-            </Container>
-            <ErrorSnackBar/>
-        </div>
+        <BrowserRouter>
+            <div className="App">
+                <AppBar position="static">
+                    <Toolbar variant="dense">
+                        <IconButton edge="start" color="inherit" sx={{mr: 2}}>
+                            <Menu/>
+                        </IconButton>
+                        {isAuth && <Typography variant="h5" color="inherit" component="div">
+                            <Button onClick={logout} variant={"contained"}>
+                                Logout
+                            </Button>
+                        </Typography>}
+                    </Toolbar>
+                </AppBar>
+                {appStatus === "loading" && <LinearProgress/>}
+                <Container fixed>
+                    <Routes>
+                        <Route path={"login"} element={<LoginForm/>}/>
+                        <Route path={"/"} element={<Todolists/>}/>
+                        <Route path={"404"} element={<h1>404: Page not found</h1>}/>
+                        <Route path={"*"} element={<Navigate to={"404"}/>}/>
+                    </Routes>
+                </Container>
+                <ErrorSnackBar/>
+            </div>
+        </BrowserRouter>
     );
 }
 
-// types
-export type FilterType = "all" | "active" | "completed" | "";

@@ -20,7 +20,6 @@ export const Todolist = React.memo((props: PropsType) => {
     const dispatch = useAppDispatch();
     let tasks = useAppSelector(state => state.tasks[todolist.id]);
     const todoStatus = todolist.todoStatus;
-    // const todoStatus = useAppSelector(state => state.todolists);
     const [filter, setFilter] = useState<FilterType>("all");
 
     if (filter === "completed") {

@@ -24,7 +24,7 @@ export const App = () => {
         return <LinearProgress/>;
     }
 
-    const logout = () => {
+    const logoutHandler = () => {
         dispatch(logoutTC());
     }
 
@@ -37,7 +37,7 @@ export const App = () => {
                             <Menu/>
                         </IconButton>
                         {isAuth && <Typography variant="h5" color="inherit" component="div">
-                            <Button onClick={logout} variant={"contained"}>
+                            <Button onClick={logoutHandler} variant={"contained"}>
                                 Logout
                             </Button>
                         </Typography>}

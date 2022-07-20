@@ -4,7 +4,7 @@ import {rootReducer, RootStateType} from "../state/store";
 import {ComponentMeta} from "@storybook/react";
 import {createStore} from "redux";
 import {v1} from "uuid";
-import {TaskPriority, TaskStatuses} from "../api/tasks";
+import {TaskPriority, TaskStatuses} from "../api/tasks-api";
 
 export default {
     title: 'App',
@@ -55,6 +55,13 @@ export const initialGlobalState = {
     },
     app: {
         appStatus: "idle",
+        error: "",
+    },
+    auth: {
+        id: null,
+        email: "",
+        login: "",
+        isAuth: false,
         error: "",
     }
 };

@@ -1,7 +1,7 @@
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
-import {TaskPriority, TaskStatuses} from "../../api/tasks";
-import {ErrorsStatusType} from "../../state/appReducer";
+import {TaskPriority, TaskStatuses} from "../../api/tasks-api";
+import {ErrorsStatusType} from "../../state/reducers/appReducer";
 
 export default {
     title: 'Task',

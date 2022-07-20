@@ -3,7 +3,7 @@ import s from "../todolist/Todolist.module.css";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../editableSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskStatuses, ResponseTaskType} from "../../api/tasks";
+import {TaskStatuses, ResponseTaskType} from "../../api/tasks-api";
 
 type TaskPropsType = {
     task: ResponseTaskType

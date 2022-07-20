@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import {TextField} from "@mui/material";
-import {setError} from "../../state/appReducer";
+import {setError} from "../../state/reducers/appReducer";
 import {useAppDispatch} from "../../state/hooks";
 
 export type EditableSpanPropsType = {

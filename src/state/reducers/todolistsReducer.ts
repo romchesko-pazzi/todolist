@@ -1,7 +1,9 @@
-import {FilterType} from "../app/App";
-import {todolistsAPI, TodoType} from "../api/todolist";
-import {AppThunkType} from "./hooks";
+import {FilterType} from "../../components/todolist/Todolist";
+import {todolistsAPI, TodoType} from "../../api/todolist-api";
+import {AppThunkType} from "../hooks";
 import {ErrorsStatusType, setError, setLoadingBar} from "./appReducer";
+import {authAPI} from "../../api/login-api";
+import {setIsLoggedIn} from "./authReducer";
 
 export enum TodolistActions {
     SET_TODOLISTS = "TODOLIST/SET_TODOLISTS",

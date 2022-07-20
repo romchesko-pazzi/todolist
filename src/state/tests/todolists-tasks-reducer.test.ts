@@ -1,5 +1,5 @@
-import {addTodolistAC, TodolistType, TodolistsReducer} from "../todolistsReducer";
-import {TasksReducer, TaskType} from "../tasksReducer";
+import {addTodolistAC, TodolistType, TodolistsReducer} from "../reducers/todolistsReducer";
+import {TasksReducer, TaskType} from "../reducers/tasksReducer";
 import {v1} from "uuid";
 
 test("id should be similar", () => {

@@ -1,3 +1,7 @@
+import {AppThunkType} from "../hooks";
+import {authAPI} from "../../api/login-api";
+import {setIsLoggedIn} from "./authReducer";
+
 const initialState: AppStateType = {
     appStatus: "idle",
     error: null,
@@ -25,6 +29,19 @@ export const setError = (error: string | null) => {
         type: "APP/SET_ERROR",
         payload: {error},
     } as const;
+}
+
+export const initializeApp = (): AppThunkType => async (dispatch) => {
+    try {
+        const isAuthMe = await authAPI.authMe();
+        if (isAuthMe.data.resultCode === 0) {
+            dispatch(setIsLoggedIn(true));
+        } else if (isAuthMe.data.resultCode !== 0) {
+            dispatch(setError(isAuthMe.data.messages[0]));
+        }
+    } catch (err: any) {
+        dispatch(setError(err));
+    }
 }
 
 

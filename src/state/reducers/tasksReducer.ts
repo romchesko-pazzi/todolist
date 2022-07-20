@@ -1,6 +1,6 @@
 import {AddTodolistType, DeleteTodolistType, SetTodolistsType, TodolistActions} from "./todolistsReducer";
-import {ResponseTaskType, tasksAPI, UpdateBody} from "../api/tasks";
-import {AppThunkType} from "./hooks";
+import {ResponseTaskType, tasksAPI, UpdateBody} from "../../api/tasks-api";
+import {AppThunkType} from "../hooks";
 import {ErrorsStatusType, setError, setLoadingBar} from "./appReducer";
 
 enum TasksActions {

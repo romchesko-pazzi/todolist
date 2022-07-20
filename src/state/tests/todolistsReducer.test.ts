@@ -1,5 +1,5 @@
 import {v1} from 'uuid';
-import {addTodolistAC, TodolistType, deleteTodolistAC, renameTodolistAC, TodolistsReducer} from "../todolistsReducer";
+import {addTodolistAC, TodolistType, deleteTodolistAC, renameTodolistAC, TodolistsReducer} from "../reducers/todolistsReducer";
 
 let todolistId1: string;
 let todolistId2: string;

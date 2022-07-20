@@ -2,7 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {IconButton, TextField} from "@mui/material";
 import {AddCircle} from "@mui/icons-material";
 import s from "./AddForm.module.css";
-import {ErrorsStatusType} from "../../state/appReducer";
+import {ErrorsStatusType} from "../../state/reducers/appReducer";
 
 type AddFormPropsType = {
     callback: (title: string) => void,

@@ -20,7 +20,7 @@ export type CommonType<T = {}> = {
 }
 
 export const instance = axios.create({
-    baseURL: "https://social-network.samuraijs.com/api/1.1/todo-lists/",
+    baseURL: "https://social-network.samuraijs.com/api/1.1/",
     withCredentials: true,
     headers: {
         "API-KEY": API_KEY
@@ -29,16 +29,16 @@ export const instance = axios.create({
 
 export const todolistsAPI = {
     getTodolists(): Promise<AxiosResponse<TodoType[]>> {
-        return instance.get<TodoType[]>("");
+        return instance.get<TodoType[]>("todo-lists");
     },
     createTodolist(title: string): Promise<AxiosResponse<CommonType<DataType<TodoType>>>> {
-        return instance.post<CommonType<DataType<TodoType>>>("", {title});
+        return instance.post<CommonType<DataType<TodoType>>>("todo-lists", {title});
     },
     deleteTodolist(todolistId: string): Promise<AxiosResponse<CommonType>> {
-        return instance.delete<CommonType>(`${todolistId}`);
+        return instance.delete<CommonType>(`todo-lists/${todolistId}`);
     },
     updateTodolist(todolistId: string, title: string): Promise<AxiosResponse<CommonType>> {
-        return instance.put<CommonType>(`${todolistId}`, {title});
+        return instance.put<CommonType>(`todo-lists/${todolistId}`, {title});
     },
 }
 

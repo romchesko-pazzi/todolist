@@ -1,18 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Button, Grid, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {addNewTask, removeTask, setTasks, updateTask} from "../../state/tasksReducer";
+import {addNewTask, removeTask, setTasks, updateTask} from "../../state/reducers/tasksReducer";
 import {EditableSpan} from "../editableSpan/EditableSpan";
-import {FilterType} from "../../app/App";
 import {AddForm} from "../addForm/AddForm";
 import {Task} from "../task/Task";
-import {TaskStatuses, ResponseTaskType} from "../../api/tasks";
+import {TaskStatuses, ResponseTaskType} from "../../api/tasks-api";
 import {useAppDispatch, useAppSelector} from "../../state/hooks";
-import {removeTodolist, renameTodolist, TodolistType} from "../../state/todolistsReducer";
+import {removeTodolist, renameTodolist, TodolistType} from "../../state/reducers/todolistsReducer";
 
-type PropsType = {
-    todolist: TodolistType
-}
 
 export const Todolist = React.memo((props: PropsType) => {
 
@@ -96,3 +92,9 @@ export const Todolist = React.memo((props: PropsType) => {
         </div>
     )
 });
+
+// types
+export type FilterType = "all" | "active" | "completed" | "";
+type PropsType = {
+    todolist: TodolistType
+}

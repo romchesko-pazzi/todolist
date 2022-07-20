@@ -24,7 +24,7 @@ export const Task = memo((props: TaskPropsType) => {
         const changeTaskStatusHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
             const newTask = {...task, status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}
             changeTaskStatus(newTask);
-        }, []);
+        }, [task]);
 
         const taskStatus = task.taskStatus;
 

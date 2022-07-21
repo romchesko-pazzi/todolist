@@ -56,6 +56,7 @@ export const initialGlobalState = {
     app: {
         appStatus: "idle",
         error: "",
+        isInitialized: false,
     },
     auth: {
         id: null,

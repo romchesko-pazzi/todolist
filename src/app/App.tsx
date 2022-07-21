@@ -14,13 +14,13 @@ export const App = () => {
 
     const {isAuth} = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
-    const appStatus = useAppSelector(state => state.app.appStatus);
+    const {appStatus, isInitialized} = useAppSelector(state => state.app);
 
     useEffect(() => {
         dispatch(initializeApp());
     }, [isAuth]);
 
-    if (!isAuth) {
+    if (!isInitialized) {
         return <LinearProgress/>;
     }
 

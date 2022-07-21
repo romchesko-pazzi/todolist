@@ -8,15 +8,16 @@ import {Navigate} from "react-router-dom";
 
 
 export const Todolists = () => {
-    useEffect(() => {
-        if (isAuth) {
-            dispatch(setTodolists());
-        }
-    }, []);
 
     const dispatch = useAppDispatch();
     const todolists = useAppSelector(state => state.todolists);
     const isAuth = useAppSelector(state => state.auth.isAuth);
+
+    useEffect(() => {
+        if (isAuth) {
+            dispatch(setTodolists());
+        }
+    }, [isAuth]);
 
     const addTodoList = useCallback((titleOfTodolist: string) => {
         dispatch(addTodolist(titleOfTodolist));

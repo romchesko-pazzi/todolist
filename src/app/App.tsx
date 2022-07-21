@@ -18,7 +18,7 @@ export const App = () => {
 
     useEffect(() => {
         dispatch(initializeApp());
-    }, [isAuth]);
+    }, []);
 
     if (!isInitialized) {
         return <LinearProgress/>;

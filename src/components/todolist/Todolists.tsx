@@ -17,7 +17,7 @@ export const Todolists = () => {
         if (isAuth) {
             dispatch(setTodolists());
         }
-    }, [isAuth]);
+    }, []);
 
     const addTodoList = useCallback((titleOfTodolist: string) => {
         dispatch(addTodolist(titleOfTodolist));

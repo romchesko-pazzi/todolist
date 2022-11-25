@@ -1,18 +1,29 @@
-import {addTodolistAC, TodolistType, TodolistsReducer} from "../reducers/todolistsReducer";
-import {TasksReducer, TaskType} from "../reducers/tasksReducer";
-import {v1} from "uuid";
+import { v1 } from 'uuid';
 
-test("id should be similar", () => {
-    const startTasksState: TaskType = {};
-    const startTodolistsState: TodolistType[] = [];
-    const todolist = {id: v1(), title: "What to learn", filter: "all", addedDate: "", order: 0};
-    const action = addTodolistAC(todolist);
+import { TasksReducer, TaskType } from '../reducers/tasksReducer';
+import {
+  addTodolist,
+  TodolistType,
+  TodolistsReducer,
+} from '../reducers/todolistsReducer';
 
-    const endTodolistsState = TodolistsReducer(startTodolistsState, action);
-    const endTasksState = TasksReducer(startTasksState, action);
+test('id should be similar', () => {
+  const startTasksState: TaskType = {};
+  const startTodolistsState: TodolistType[] = [];
+  const todolist = {
+    id: v1(),
+    title: 'What to learn',
+    filter: 'all',
+    addedDate: '',
+    order: 0,
+  };
+  const action = addTodolist({ todolist });
 
-    const key = Object.keys(endTasksState);
+  const endTodolistsState = TodolistsReducer(startTodolistsState, action);
+  const endTasksState = TasksReducer(startTasksState, action);
 
-    expect(key[0]).toStrictEqual(endTodolistsState[0].id);
-    expect(endTodolistsState[0].id).toStrictEqual(action.payload.todolist.id);
-})
+  const key = Object.keys(endTasksState);
+
+  expect(key[0]).toStrictEqual(endTodolistsState[0].id);
+  expect(endTodolistsState[0].id).toStrictEqual(action.payload.todolist.id);
+});

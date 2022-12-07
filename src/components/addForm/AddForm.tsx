@@ -3,9 +3,10 @@ import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { AddCircle } from '@mui/icons-material';
 import { IconButton, TextField } from '@mui/material';
 
+import c from '../../assets/commonStyles/common.module.scss';
 import { AppStatusesType } from '../../state/reducers/appReducer';
 
-import s from './AddForm.module.css';
+import s from './addForm.module.scss';
 
 type AddFormPropsType = {
   callback: (title: string) => void;
@@ -42,8 +43,10 @@ export const AddForm = React.memo((props: AddFormPropsType) => {
   const isDisabled = disabled === 'loading';
 
   return (
-    <div className={s.main}>
+    <div className={s.addForm}>
       <TextField
+        InputLabelProps={{ className: c.textField }}
+        InputProps={{ className: c.textField }}
         helperText={error && 'Title is required'}
         error={error}
         label="Title"
@@ -54,7 +57,7 @@ export const AddForm = React.memo((props: AddFormPropsType) => {
       />
       <div className={s.btn}>
         <IconButton onClick={onClickHandler} disabled={isDisabled}>
-          <AddCircle color="primary" />
+          <AddCircle fontSize="large" color="primary" />
         </IconButton>
       </div>
     </div>

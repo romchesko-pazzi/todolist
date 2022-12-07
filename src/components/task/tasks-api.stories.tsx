@@ -8,7 +8,7 @@ export default {
 
 export const GetTasks = () => {
   const [state, setState] = useState<any>(null);
-  const [todolistId, settodolistId] = useState<string>('');
+  const [todolistId, setTodolistId] = useState<string>('');
 
   const getTasks = () => {
     if (todolistId !== '') {
@@ -20,7 +20,7 @@ export const GetTasks = () => {
         .catch(rej => {
           console.log(rej);
         });
-      settodolistId('');
+      setTodolistId('');
     }
   };
 
@@ -30,7 +30,7 @@ export const GetTasks = () => {
         <input
           placeholder="todolistId"
           value={todolistId}
-          onChange={e => settodolistId(e.currentTarget.value)}
+          onChange={e => setTodolistId(e.currentTarget.value)}
         />
       </div>
       <div>

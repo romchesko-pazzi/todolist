@@ -36,7 +36,7 @@ export const initializeApp = (): AppThunkType => async dispatch => {
     const isAuthMe = await authAPI.authMe();
 
     if (isAuthMe.data.resultCode === 0) {
-      dispatch(setIsLoggedIn({ value: true }));
+      dispatch(setIsLoggedIn(true));
     } else if (isAuthMe.data.resultCode !== 0) {
       dispatch(setError({ error: isAuthMe.data.messages[0] }));
     }

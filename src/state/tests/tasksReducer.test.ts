@@ -85,7 +85,9 @@ test('correct task should be deleted from correct array', () => {
 
   expect(endState.todolistId1[0].title).toEqual('HTML&CSS');
   expect(endState.todolistId1.length).toEqual(1);
+  expect(endState.todolistId2.length).toEqual(2);
   expect(endState.todolistId1).not.toStrictEqual(startState.todolistId1);
+  expect(endState.todolistId1.every(t => t.id !== '2')).toBeTruthy();
 });
 
 test('correct task should be added to correct array', () => {
@@ -102,7 +104,7 @@ test('correct task should be added to correct array', () => {
     addedDate: '',
     taskStatus: 'idle',
   };
-  const action = addTask({ task: obj });
+  const action = addTask(obj);
   const endState = TasksReducer(startState, action);
   const expectedEndStateLength = 3;
 

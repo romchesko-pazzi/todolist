@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 
 import { TextField } from '@mui/material';
 
+import c from '../../assets/commonStyles/common.module.scss';
 import { useAppDispatch } from '../../state/hooks';
 import { setError } from '../../state/reducers/appReducer';
 
@@ -38,6 +39,7 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
     <div>
       {field === 'input' ? (
         <TextField
+          InputProps={{ className: c.textField }}
           variant="standard"
           onChange={onChangeHandler}
           onBlur={onBlurHandler}

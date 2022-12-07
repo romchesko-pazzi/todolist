@@ -1,19 +1,21 @@
 import React from 'react';
 
-import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
-import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { useFormik } from 'formik';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { LoginParamsType } from '../../api/login-api';
+import c from '../../assets/commonStyles/common.module.scss';
 import { path } from '../../data/constants/paths';
-import { useAppSelector } from '../../state/hooks';
+import { useAppDispatch, useAppSelector } from '../../state/hooks';
+import { loginTC } from '../../state/reducers/authReducer';
+
+import s from './login.module.scss';
 
 const validate = (values: FormikErrorType) => {
   const minPasswordLength = 3;
@@ -34,9 +36,13 @@ const validate = (values: FormikErrorType) => {
   return errors;
 };
 
-export const Login: React.FC<LoginPropsType> = props => {
-  const { login } = props;
+export const Login = () => {
+  const dispatch = useAppDispatch();
+  const login = (obj: LoginParamsType) => {
+    dispatch(loginTC(obj));
+  };
   const isAuth = useAppSelector(state => state.auth.isAuth);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -50,33 +56,21 @@ export const Login: React.FC<LoginPropsType> = props => {
     },
   });
 
-  if (isAuth) {
-    return <Navigate to={path.todolists} />;
-  }
+  if (isAuth) navigate(path.todolists);
 
   return (
-    <Grid container justifyContent="center">
-      <Grid item justifyContent="center">
+    <div className={s.login}>
+      <div className={s.frame}>
         <form onSubmit={formik.handleSubmit}>
           <FormControl>
-            <FormLabel>
-              <p>
-                To log in get registered
-                <a
-                  href="https://social-network.samuraijs.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {' '}
-                  here
-                </a>
-              </p>
-              <p>or use common test account credentials:</p>
+            <FormLabel sx={{ fontSize: '1.6rem', fontFamily: 'inherit' }}>
               <p>Email: free@samuraijs.com</p>
               <p>Password: free</p>
             </FormLabel>
             <FormGroup>
               <TextField
+                InputLabelProps={{ className: c.textField }}
+                InputProps={{ className: c.textField }}
                 label="Email"
                 margin="normal"
                 {...formik.getFieldProps('email')}
@@ -86,6 +80,8 @@ export const Login: React.FC<LoginPropsType> = props => {
               )}
 
               <TextField
+                InputLabelProps={{ className: c.textField }}
+                InputProps={{ className: c.textField }}
                 label="Password"
                 margin="normal"
                 type="password"
@@ -96,6 +92,7 @@ export const Login: React.FC<LoginPropsType> = props => {
               )}
 
               <FormControlLabel
+                className={`${s.label} ${c.icon}`}
                 name="rememberMe"
                 onChange={formik.handleChange}
                 checked={formik.values.rememberMe}
@@ -103,14 +100,14 @@ export const Login: React.FC<LoginPropsType> = props => {
                 control={<Checkbox />}
               />
 
-              <Button type="submit" variant="contained" color="primary">
+              <button type="submit" className={`${c.button} ${s.button}`}>
                 Login
-              </Button>
+              </button>
             </FormGroup>
           </FormControl>
         </form>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 
@@ -118,8 +115,4 @@ type FormikErrorType = {
   email: string;
   password: string;
   rememberMe: boolean;
-};
-
-type LoginPropsType = {
-  login: (obj: LoginParamsType) => void;
 };

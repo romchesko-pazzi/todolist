@@ -1,5 +1,4 @@
 export enum path {
-  login = '/login',
-  todolists = '/',
+  todolists = '/todolists',
   notFound = '/not-found',
 }

@@ -17,8 +17,8 @@ const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setIsLoggedIn: (state, action: PayloadAction<{ value: boolean }>) => {
-      state.isAuth = action.payload.value;
+    setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
+      state.isAuth = action.payload;
     },
   },
 });
@@ -41,7 +41,7 @@ export const loginTC =
 
         return;
       }
-      dispatch(setIsLoggedIn({ value: true }));
+      dispatch(setIsLoggedIn(true));
     } catch (err: any) {
       dispatch(setError(err.message));
     } finally {
@@ -61,7 +61,7 @@ export const logoutTC = (): AppThunkType => async dispatch => {
 
       return;
     }
-    dispatch(setIsLoggedIn({ value: false }));
+    dispatch(setIsLoggedIn(false));
   } catch (err: any) {
     dispatch(setError(err.message));
   } finally {

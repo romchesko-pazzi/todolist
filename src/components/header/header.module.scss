@@ -1,0 +1,8 @@
+@import "../../assets/sass/abstracts/vars";
+
+.header {
+  padding: 1rem;
+  background-color: $color-blue-main;
+  display: flex;
+  justify-content: end;
+}

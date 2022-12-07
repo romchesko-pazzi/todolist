@@ -46,12 +46,12 @@ const slice = createSlice({
       };
     },
 
-    addTask: (state, action: PayloadAction<{ task: ResponseTaskType }>) => {
+    addTask: (state, action: PayloadAction<ResponseTaskType>) => {
       return {
         ...state,
-        [action.payload.task.todoListId]: [
-          action.payload.task,
-          ...state[action.payload.task.todoListId],
+        [action.payload.todoListId]: [
+          action.payload,
+          ...state[action.payload.todoListId],
         ],
       };
     },
@@ -135,7 +135,7 @@ export const addNewTask =
       }
       const task = response.data.data.item;
 
-      dispatch(addTask({ task }));
+      dispatch(addTask(task));
     } catch (err: any) {
       dispatch(setError(err.message));
     } finally {

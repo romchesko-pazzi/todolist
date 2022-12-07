@@ -7,7 +7,7 @@ export default {
   component: AddForm,
 };
 
-const callback = action('Button was pressed');
+const callback = action('added');
 
 export const AddFormExample = () => {
   return <AddForm name="123" callback={callback} />;

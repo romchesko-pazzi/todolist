@@ -1,0 +1,25 @@
+@import "../../assets/sass/abstracts/vars";
+
+.login {
+  display: flex;
+  justify-content: center;
+  margin-top: 10rem;
+}
+
+.frame {
+  border-radius: .5rem;
+  padding: 1rem;
+  box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+.label {
+  & span {
+    font-size: 1.6rem;
+    font-family: inherit;
+  }
+}
+
+.button {
+  background: $color-blue-main;
+  color: #ffffff;
+}

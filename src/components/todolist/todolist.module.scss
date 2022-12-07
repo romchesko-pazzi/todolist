@@ -1,0 +1,17 @@
+.todolist {
+  font-size: 1.9rem;
+
+  & > div:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+}
+
+.filterButtons {
+  display: flex;
+  justify-content: space-between;
+}

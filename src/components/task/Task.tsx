@@ -4,8 +4,10 @@ import { Delete } from '@mui/icons-material';
 import { Checkbox, IconButton } from '@mui/material';
 
 import { TaskStatuses, ResponseTaskType } from '../../api/tasks-api';
+import c from '../../assets/commonStyles/common.module.scss';
 import { EditableSpan } from '../editableSpan/EditableSpan';
-import s from '../todolist/Todolist.module.css';
+
+import s from './task.module.scss';
 
 type TaskPropsType = {
   task: ResponseTaskType;
@@ -41,13 +43,18 @@ export const Task = memo((props: TaskPropsType) => {
   const { taskStatus } = task;
 
   return (
-    <div className={task.status === TaskStatuses.Completed ? s.isDone : ''}>
+    <div className={s.task}>
       <Checkbox
+        className={c.icon}
         checked={task.status === TaskStatuses.Completed}
         onChange={changeTaskStatusHandler}
       />
       <EditableSpan name={task.title} callback={renameTaskHandler} />
-      <IconButton onClick={() => deleteTask(task.id)} disabled={taskStatus === 'loading'}>
+      <IconButton
+        className={c.icon}
+        onClick={() => deleteTask(task.id)}
+        disabled={taskStatus === 'loading'}
+      >
         <Delete />
       </IconButton>
     </div>

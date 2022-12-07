@@ -1,24 +1,22 @@
+import { configureStore } from '@reduxjs/toolkit';
 import { ComponentMeta } from '@storybook/react';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 
-import { initialGlobalState } from '../../app/App.stories';
-import { rootReducer, RootStateType } from '../../state/store';
+import { rootReducer } from '../../state/store';
+import { ProviderDecorator } from '../../stories/ProviderDecorator';
 
 import { Todolist } from './Todolist';
 
 export default {
   title: 'Todolist',
   component: Todolist,
-  decorators: [Story => <Provider store={storyBookStore}>{Story()}</Provider>],
+  decorators: [ProviderDecorator],
 } as ComponentMeta<typeof Todolist>;
 
-export const storyBookStore = createStore(
-  rootReducer,
-  initialGlobalState as RootStateType,
-);
+const storyBookStore = configureStore({
+  reducer: rootReducer,
+});
 
-export const TodolistExample = () => {
+const TodolistExample = () => {
   return (
     <Todolist
       todolist={{

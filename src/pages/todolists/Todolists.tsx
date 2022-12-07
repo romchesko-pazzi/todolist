@@ -1,27 +1,29 @@
 import React, { useCallback, useEffect } from 'react';
 
 import { Grid, Paper } from '@mui/material';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+import { AddForm } from '../../components/addForm/AddForm';
+import { Todolist } from '../../components/todolist/Todolist';
 import { useAppDispatch, useAppSelector } from '../../state/hooks';
 import {
   addTodolistTC,
   fetchTodolists,
   TodolistType,
 } from '../../state/reducers/todolistsReducer';
-import { AddForm } from '../addForm/AddForm';
-
-import { Todolist } from './Todolist';
 
 export const Todolists = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const todolists = useAppSelector(state => state.todolists);
   const isAuth = useAppSelector(state => state.auth.isAuth);
 
   useEffect(() => {
-    if (isAuth) {
-      dispatch(fetchTodolists());
-    }
+    if (!isAuth) navigate('/');
+  }, [isAuth, navigate]);
+
+  useEffect(() => {
+    if (isAuth) dispatch(fetchTodolists());
   }, []);
 
   const addTodoList = useCallback(
@@ -30,10 +32,6 @@ export const Todolists = () => {
     },
     [dispatch],
   );
-
-  if (!isAuth) {
-    return <Navigate to="login" />;
-  }
 
   return (
     <div>

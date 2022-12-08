@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { ComponentMeta } from '@storybook/react';
 
-import { rootReducer } from '../../state/store';
+import { rootReducer } from '../../store/store';
 import { ProviderDecorator } from '../../stories/ProviderDecorator';
 
 import { Todolist } from './Todolist';

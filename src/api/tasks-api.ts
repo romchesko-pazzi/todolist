@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import { AppStatusesType } from '../state/reducers/appReducer';
+import { AppStatusesType } from '../store/reducers/appReducer';
 
 import { CommonType, DataType, instance } from './todolist-api';
 

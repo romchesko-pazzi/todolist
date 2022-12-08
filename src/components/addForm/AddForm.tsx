@@ -4,18 +4,17 @@ import { AddCircle } from '@mui/icons-material';
 import { IconButton, TextField } from '@mui/material';
 
 import c from '../../assets/commonStyles/common.module.scss';
-import { AppStatusesType } from '../../state/reducers/appReducer';
+import { AppStatusesType } from '../../store/reducers/appReducer';
 
 import s from './addForm.module.scss';
 
 type AddFormPropsType = {
   callback: (title: string) => void;
-  name: string;
   disabled?: AppStatusesType;
 };
 
 export const AddForm = React.memo((props: AddFormPropsType) => {
-  const { callback, disabled, name } = props;
+  const { callback, disabled } = props;
   const [value, setValue] = useState('');
   const [error, setError] = useState(false);
 

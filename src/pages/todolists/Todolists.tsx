@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { AddForm } from '../../components/addForm/AddForm';
 import { Todolist } from '../../components/todolist/Todolist';
-import { useAppDispatch, useAppSelector } from '../../state/hooks';
+import { useAppDispatch, useAppSelector } from '../../data/hooks';
 import {
   addTodolistTC,
   fetchTodolists,
   TodolistType,
-} from '../../state/reducers/todolistsReducer';
+} from '../../store/reducers/todolistsReducer';
 
 export const Todolists = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ export const Todolists = () => {
 
   useEffect(() => {
     if (isAuth) dispatch(fetchTodolists());
-  }, []);
+  }, [dispatch]);
 
   const addTodoList = useCallback(
     (titleOfTodolist: string) => {
@@ -36,7 +36,7 @@ export const Todolists = () => {
   return (
     <div>
       <Grid container style={{ padding: '15px' }}>
-        <AddForm name="add todolist" callback={addTodoList} />
+        <AddForm callback={addTodoList} />
       </Grid>
       <Grid container spacing={5}>
         {todolists.map((m: TodolistType) => {

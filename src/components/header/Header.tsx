@@ -4,8 +4,8 @@ import { LinearProgress } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 import c from '../../assets/commonStyles/common.module.scss';
-import { useAppDispatch, useAppSelector } from '../../state/hooks';
-import { logoutTC } from '../../state/reducers/authReducer';
+import { useAppDispatch, useAppSelector } from '../../data/hooks';
+import { logout } from '../../store/reducers/authReducer';
 
 import s from './header.module.scss';
 
@@ -15,7 +15,7 @@ export const Header = () => {
   const dispatch = useAppDispatch();
 
   const logoutHandler = () => {
-    dispatch(logoutTC());
+    dispatch(logout());
   };
 
   return (

@@ -5,18 +5,18 @@ import { IconButton } from '@mui/material';
 
 import { ResponseTaskType, TaskStatuses } from '../../api/tasks-api';
 import c from '../../assets/commonStyles/common.module.scss';
-import { useAppDispatch, useAppSelector } from '../../state/hooks';
+import { useAppDispatch, useAppSelector } from '../../data/hooks';
 import {
   addNewTask,
   getTasks,
   removeTask,
   updateTaskData,
-} from '../../state/reducers/tasksReducer';
+} from '../../store/reducers/tasksReducer';
 import {
   removeTodolist,
   renameTodolist,
   TodolistType,
-} from '../../state/reducers/todolistsReducer';
+} from '../../store/reducers/todolistsReducer';
 import { AddForm } from '../addForm/AddForm';
 import { EditableSpan } from '../editableSpan/EditableSpan';
 import { Task } from '../task/Task';
@@ -24,15 +24,15 @@ import { Task } from '../task/Task';
 import s from './todolist.module.scss';
 
 export const Todolist = React.memo((props: PropsType) => {
-  useEffect(() => {
-    dispatch(getTasks(todolist.id));
-  }, []);
-
   const { todolist } = props;
+  const { todoStatus } = todolist;
   const dispatch = useAppDispatch();
   let tasks = useAppSelector(state => state.tasks[todolist.id]);
-  const { todoStatus } = todolist;
   const [filter, setFilter] = useState<FilterType>('all');
+
+  useEffect(() => {
+    dispatch(getTasks(todolist.id));
+  }, [dispatch]);
 
   if (filter === 'completed') {
     tasks = tasks.filter(f => f.status === TaskStatuses.Completed);
@@ -45,13 +45,13 @@ export const Todolist = React.memo((props: PropsType) => {
   }, []);
   const addTask = useCallback(
     (newTitle: string) => {
-      dispatch(addNewTask(newTitle, todolist.id));
+      dispatch(addNewTask({ title: newTitle, todoListId: todolist.id }));
     },
     [todolist.id, dispatch],
   );
   const deleteTask = useCallback(
     (taskId: string) => {
-      dispatch(removeTask(todolist.id, taskId));
+      dispatch(removeTask({ todolistId: todolist.id, taskId }));
     },
     [todolist.id, dispatch],
   );
@@ -92,7 +92,7 @@ export const Todolist = React.memo((props: PropsType) => {
         </IconButton>
       </div>
       <div>
-        <AddForm name="add task" callback={addTask} disabled={todoStatus} />
+        <AddForm callback={addTask} disabled={todoStatus} />
       </div>
       <div>
         {tasks.map(m => {

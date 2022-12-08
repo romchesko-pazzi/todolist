@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { todolistsAPI, TodoType } from '../../api/todolist-api';
 import { FilterType } from '../../components/todolist/Todolist';
-import { AppThunkType } from '../hooks';
+import { AppThunkType } from '../../data/hooks';
 
 import { AppStatusesType, setError, setLoadingBar } from './appReducer';
 

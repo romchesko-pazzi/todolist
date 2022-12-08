@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -9,11 +9,10 @@ import TextField from '@mui/material/TextField';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 
-import { LoginParamsType } from '../../api/login-api';
 import c from '../../assets/commonStyles/common.module.scss';
 import { path } from '../../data/constants/paths';
-import { useAppDispatch, useAppSelector } from '../../state/hooks';
-import { loginTC } from '../../state/reducers/authReducer';
+import { useAppDispatch, useAppSelector } from '../../data/hooks';
+import { login } from '../../store/reducers/authReducer';
 
 import s from './login.module.scss';
 
@@ -38,9 +37,6 @@ const validate = (values: FormikErrorType) => {
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const login = (obj: LoginParamsType) => {
-    dispatch(loginTC(obj));
-  };
   const isAuth = useAppSelector(state => state.auth.isAuth);
   const navigate = useNavigate();
   const formik = useFormik({
@@ -51,12 +47,14 @@ export const Login = () => {
     },
     validate,
     onSubmit: values => {
-      login(values);
+      dispatch(login(values));
       formik.resetForm();
     },
   });
 
-  if (isAuth) navigate(path.todolists);
+  useEffect(() => {
+    if (isAuth) navigate(path.todolists);
+  }, [isAuth, navigate]);
 
   return (
     <div className={s.login}>

@@ -1,11 +1,11 @@
 import { v1 } from 'uuid';
 
-import { TasksReducer, TaskType } from '../reducers/tasksReducer';
+import { TasksReducer, TaskType } from '../store/reducers/tasksReducer';
 import {
   addTodolist,
   TodolistType,
   TodolistsReducer,
-} from '../reducers/todolistsReducer';
+} from '../store/reducers/todolistsReducer';
 
 test('id should be similar', () => {
   const startTasksState: TaskType = {};

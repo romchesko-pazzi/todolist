@@ -3,8 +3,8 @@ import React, { ChangeEvent, useState } from 'react';
 import { TextField } from '@mui/material';
 
 import c from '../../assets/commonStyles/common.module.scss';
-import { useAppDispatch } from '../../state/hooks';
-import { setError } from '../../state/reducers/appReducer';
+import { useAppDispatch } from '../../data/hooks';
+import { setError } from '../../store/reducers/appReducer';
 
 export type EditableSpanPropsType = {
   name: string;

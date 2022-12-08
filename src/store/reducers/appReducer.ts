@@ -1,7 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { authAPI } from '../../api/login-api';
-import { AppThunkType } from '../hooks';
 
 import { setIsLoggedIn } from './authReducer';
 
@@ -10,6 +9,25 @@ const initialState = {
   error: null as string | null,
   isInitialized: false,
 };
+
+export const initializeApp = createAsyncThunk(
+  'app/initApp',
+  async (param, { dispatch }) => {
+    try {
+      const isAuthMe = await authAPI.authMe();
+
+      if (isAuthMe.data.resultCode === 0) {
+        dispatch(setIsLoggedIn(true));
+      } else if (isAuthMe.data.resultCode !== 0) {
+        dispatch(setError({ error: isAuthMe.data.messages[0] }));
+      }
+    } catch (err: any) {
+      dispatch(setError(err));
+    } finally {
+      dispatch(setIsInitialized({ value: true }));
+    }
+  },
+);
 
 const slice = createSlice({
   name: 'app',
@@ -30,22 +48,6 @@ const slice = createSlice({
 export const AppReducer = slice.reducer;
 
 export const { setLoadingBar, setError, setIsInitialized } = slice.actions;
-
-export const initializeApp = (): AppThunkType => async dispatch => {
-  try {
-    const isAuthMe = await authAPI.authMe();
-
-    if (isAuthMe.data.resultCode === 0) {
-      dispatch(setIsLoggedIn(true));
-    } else if (isAuthMe.data.resultCode !== 0) {
-      dispatch(setError({ error: isAuthMe.data.messages[0] }));
-    }
-  } catch (err: any) {
-    dispatch(setError(err));
-  } finally {
-    dispatch(setIsInitialized({ value: true }));
-  }
-};
 
 type SetLoadingBarType = ReturnType<typeof setLoadingBar>;
 type SetErrorType = ReturnType<typeof setError>;

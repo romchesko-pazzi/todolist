@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { ComponentMeta } from '@storybook/react';
 import thunkMiddleware from 'redux-thunk';
 
-import { rootReducer } from '../state/store';
+import { rootReducer } from '../store/store';
 import { ProviderDecorator } from '../stories/ProviderDecorator';
 
 import { App } from './App';

@@ -1,7 +1,7 @@
-import { AppActionsType } from '../state/reducers/appReducer';
-import { AuthActionsType } from '../state/reducers/authReducer';
-import { TasksActionType } from '../state/reducers/tasksReducer';
-import { TodolistsActionType } from '../state/reducers/todolistsReducer';
+import { AppActionsType } from '../store/reducers/appReducer';
+import { AuthActionsType } from '../store/reducers/authReducer';
+import { TasksActionType } from '../store/reducers/tasksReducer';
+import { TodolistsActionType } from '../store/reducers/todolistsReducer';
 
 export type ActionTypeForApp =
   | TodolistsActionType

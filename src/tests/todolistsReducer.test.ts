@@ -6,7 +6,7 @@ import {
   deleteTodolist,
   changeTodolistName,
   TodolistsReducer,
-} from '../reducers/todolistsReducer';
+} from '../store/reducers/todolistsReducer';
 
 let todolistId1: string;
 let todolistId2: string;

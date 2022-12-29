@@ -20,14 +20,24 @@ export const Header = () => {
 
   return (
     <>
-      <div className={s.header}>
+      {appStatus === 'loading' ? (
+        <LinearProgress />
+      ) : (
+        <div className={s.transparentLoading} />
+      )}
+
+      <div className={s.main}>
+        <h1 className={s.heading}>Todolist</h1>
         {isAuth && (
-          <button type="button" className={c.button} onClick={logoutHandler}>
+          <button
+            type="button"
+            className={`${c.button} + ${s.button}`}
+            onClick={logoutHandler}
+          >
             Logout
           </button>
         )}
       </div>
-      {appStatus === 'loading' && <LinearProgress />}
       <Outlet />
     </>
   );

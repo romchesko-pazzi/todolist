@@ -59,9 +59,11 @@ export const Login = () => {
   return (
     <div className={s.login}>
       <div className={s.frame}>
-        <form onSubmit={formik.handleSubmit}>
-          <FormControl>
-            <FormLabel sx={{ fontSize: '1.6rem', fontFamily: 'inherit' }}>
+        <form className={s.form} onSubmit={formik.handleSubmit}>
+          <FormControl sx={{ minWidth: '100%' }}>
+            <FormLabel
+              sx={{ fontSize: '1.6rem', fontFamily: 'inherit', textAlign: 'center' }}
+            >
               <p>Email: free@samuraijs.com</p>
               <p>Password: free</p>
             </FormLabel>
@@ -74,7 +76,7 @@ export const Login = () => {
                 {...formik.getFieldProps('email')}
               />
               {formik.touched.email && formik.errors.email && (
-                <div>{formik.errors.email}</div>
+                <div className={s.error}>{formik.errors.email}</div>
               )}
 
               <TextField
@@ -86,7 +88,7 @@ export const Login = () => {
                 {...formik.getFieldProps('password')}
               />
               {formik.touched.password && formik.errors.password && (
-                <div>{formik.errors.password}</div>
+                <div className={s.error}>{formik.errors.password}</div>
               )}
 
               <FormControlLabel

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { authAPI, LoginParamsType } from '../../api/login-api';
+import { AppStatuses } from '../../data/constants/appStatuses';
 
 import { setError, setLoadingBar } from './appReducer';
 
@@ -16,7 +17,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (loginData: LoginParamsType, { dispatch, rejectWithValue }) => {
     try {
-      dispatch(setLoadingBar({ appStatus: 'loading' }));
+      dispatch(setLoadingBar({ appStatus: AppStatuses.loading }));
       const response = await authAPI.login(loginData);
 
       if (response.data.messages.length > 0) {
@@ -30,14 +31,14 @@ export const login = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue({ isAuth: false });
     } finally {
-      dispatch(setLoadingBar({ appStatus: 'finished' }));
+      dispatch(setLoadingBar({ appStatus: AppStatuses.finished }));
     }
   },
 );
 
 export const logout = createAsyncThunk('auth/logout', async (params, { dispatch }) => {
   try {
-    dispatch(setLoadingBar({ appStatus: 'loading' }));
+    dispatch(setLoadingBar({ appStatus: AppStatuses.loading }));
     const response = await authAPI.logout();
 
     if (response.data.messages.length > 0) {
@@ -48,11 +49,9 @@ export const logout = createAsyncThunk('auth/logout', async (params, { dispatch 
 
     dispatch(setIsLoggedIn(false));
   } catch (err: any) {
-    dispatch(setError(err.message));
-
-    return { isAuth: false };
+    dispatch(setError({ error: err.message }));
   } finally {
-    dispatch(setLoadingBar({ appStatus: 'finished' }));
+    dispatch(setLoadingBar({ appStatus: AppStatuses.finished }));
   }
 });
 

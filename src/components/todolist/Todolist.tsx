@@ -63,7 +63,7 @@ export const Todolist = React.memo((props: PropsType) => {
   );
   const updateTodolistTitle = useCallback(
     (newTitle: string) => {
-      dispatch(renameTodolist(todolist.id, newTitle));
+      dispatch(renameTodolist({ todolistId: todolist.id, newTitle }));
     },
     [todolist.id, dispatch],
   );

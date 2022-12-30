@@ -7,8 +7,8 @@ import { AddForm } from '../../components/addForm/AddForm';
 import { Todolist } from '../../components/todolist/Todolist';
 import { useAppDispatch, useAppSelector } from '../../data/hooks';
 import {
-  addTodolistTC,
-  fetchTodolists,
+  addTodolist,
+  getTodolists,
   TodolistType,
 } from '../../store/reducers/todolistsReducer';
 
@@ -23,12 +23,12 @@ export const Todolists = () => {
   }, [isAuth, navigate]);
 
   useEffect(() => {
-    if (isAuth) dispatch(fetchTodolists());
+    if (isAuth) dispatch(getTodolists());
   }, [dispatch]);
 
   const addTodoList = useCallback(
-    (titleOfTodolist: string) => {
-      dispatch(addTodolistTC(titleOfTodolist));
+    (title: string) => {
+      dispatch(addTodolist(title));
     },
     [dispatch],
   );

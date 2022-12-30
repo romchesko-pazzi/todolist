@@ -1,31 +1,26 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { ResponseTaskType, tasksAPI, UpdateBody } from '../../api/tasks-api';
+import { TodoType } from '../../api/todolist-api';
+import { AppStatuses } from '../../data/constants/appStatuses';
 
 import { AppStatusesType, setError, setLoadingBar } from './appReducer';
-import {
-  addTodolist,
-  AddTodolistType,
-  deleteTodolist,
-  DeleteTodolistType,
-  setTodolists,
-  SetTodolistsType,
-} from './todolistsReducer';
+import { addTodolist, getTodolists, removeTodolist } from './todolistsReducer';
 
 const initialState: TaskType = {};
 
 export const getTasks = createAsyncThunk(
   'tasks/getTasks',
-  async (todolistId: string, { dispatch }) => {
+  async (todolistId: string, { dispatch, rejectWithValue }) => {
     try {
-      dispatch(setLoadingBar({ appStatus: 'loading' }));
+      dispatch(setLoadingBar({ appStatus: AppStatuses.loading }));
       const response = await tasksAPI.getTasks(todolistId);
 
       return { todolistId, tasks: response.data.items }; // делается не диспатч setTasks, а возвращается payload, чтобы можно было юзать в extraReducers
     } catch (err) {
-      throw new Error('error on getting tasks');
+      return rejectWithValue('error on getting tasks');
     } finally {
-      dispatch(setLoadingBar({ appStatus: 'finished' }));
+      dispatch(setLoadingBar({ appStatus: AppStatuses.finished }));
     }
   },
 );
@@ -40,16 +35,16 @@ export const removeTask = createAsyncThunk(
 
     try {
       dispatch(disableDeleteButton({ value: 'loading', taskId, todolistId }));
-      dispatch(setLoadingBar({ appStatus: 'loading' }));
+      dispatch(setLoadingBar({ appStatus: AppStatuses.loading }));
       await tasksAPI.deleteTask(params.todolistId, params.taskId);
 
       return params;
     } catch (err: any) {
-      dispatch(setError(err.message));
+      dispatch(setError({ error: err.message }));
 
       return rejectWithValue({ error: err.message });
     } finally {
-      dispatch(setLoadingBar({ appStatus: 'finished' }));
+      dispatch(setLoadingBar({ appStatus: AppStatuses.finished }));
     }
   },
 );
@@ -63,7 +58,7 @@ export const addNewTask = createAsyncThunk(
     const { title, todoListId } = params;
 
     try {
-      dispatch(setLoadingBar({ appStatus: 'loading' }));
+      dispatch(setLoadingBar({ appStatus: AppStatuses.loading }));
       const response = await tasksAPI.createTask(todoListId, title);
 
       if (response.data.messages.length > 0) {
@@ -71,16 +66,16 @@ export const addNewTask = createAsyncThunk(
 
         dispatch(setError({ error }));
 
-        return rejectWithValue({ value: error });
+        return rejectWithValue(error);
       }
 
       return response.data.data.item;
     } catch (err: any) {
-      dispatch(setError(err.message));
+      dispatch(setError({ error: err.message }));
 
       return rejectWithValue({ value: err.message });
     } finally {
-      dispatch(setLoadingBar({ appStatus: 'finished' }));
+      dispatch(setLoadingBar({ appStatus: AppStatuses.finished }));
     }
   },
 );
@@ -102,7 +97,7 @@ export const updateTaskData = createAsyncThunk(
 
       return { todolistId: task.todoListId, task: body, taskId: task.id };
     } catch (err: any) {
-      dispatch(setError(err.message));
+      dispatch(setError({ error: err.message }));
 
       return rejectWithValue({ rejectedValue: err.message });
     }
@@ -128,14 +123,14 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(addTodolist, (state, action) => {
+      .addCase(addTodolist.fulfilled, (state, action) => {
         state[action.payload.todolist.id] = [];
       })
-      .addCase(deleteTodolist, (state, action) => {
-        delete state[action.payload.todolistId];
+      .addCase(removeTodolist.fulfilled, (state, action) => {
+        delete state[action.payload];
       })
-      .addCase(setTodolists, (state, action) => {
-        action.payload.todolists.forEach(item => {
+      .addCase(getTodolists.fulfilled, (state, action) => {
+        action.payload.todolists.forEach((item: TodoType) => {
           state[item.id] = [];
         });
       })
@@ -162,11 +157,7 @@ const slice = createSlice({
 export const { disableDeleteButton } = slice.actions;
 export const TasksReducer = slice.reducer;
 
-export type TasksActionType =
-  | AddTodolistType
-  | DeleteTodolistType
-  | SetTodolistsType
-  | DisableDeleteButtonType;
+export type TasksActionType = DisableDeleteButtonType;
 type DisableDeleteButtonType = ReturnType<typeof disableDeleteButton>;
 
 export type TaskType = {

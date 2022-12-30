@@ -17,7 +17,7 @@ test('id should be similar', () => {
     addedDate: '',
     order: 0,
   };
-  const action = addTodolist({ todolist });
+  const action = addTodolist.fulfilled({ todolist }, '', todolist.title);
 
   const endTodolistsState = TodolistsReducer(startTodolistsState, action);
   const endTasksState = TasksReducer(startTasksState, action);

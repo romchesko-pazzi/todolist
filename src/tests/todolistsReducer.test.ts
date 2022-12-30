@@ -3,9 +3,9 @@ import { v1 } from 'uuid';
 import {
   addTodolist,
   TodolistType,
-  deleteTodolist,
-  changeTodolistName,
   TodolistsReducer,
+  removeTodolist,
+  renameTodolist,
 } from '../store/reducers/todolistsReducer';
 
 let todolistId1: string;
@@ -39,7 +39,7 @@ beforeEach(() => {
 test('correct todolist should be removed', () => {
   const endState = TodolistsReducer(
     startState,
-    deleteTodolist({ todolistId: todolistId1 }),
+    removeTodolist.fulfilled(todolistId1, '', todolistId1),
   );
 
   expect(endState.length).toStrictEqual(1);
@@ -48,7 +48,12 @@ test('correct todolist should be removed', () => {
 });
 
 test('correct todolist should be added', () => {
-  const endState = TodolistsReducer(startState, addTodolist({ todolist: startState[0] }));
+  const action = addTodolist.fulfilled(
+    { todolist: startState[0] },
+    '',
+    'new todolist title',
+  );
+  const endState = TodolistsReducer(startState, action);
   const expectedEndStateLength = 3;
 
   expect(endState.length).toStrictEqual(expectedEndStateLength);
@@ -60,10 +65,17 @@ test('correct todolist should be added', () => {
 test('correct todolist should change its name', () => {
   const newTodolistName = 'new name of todolist';
 
-  const action = changeTodolistName({
-    todolistId: todolistId2,
-    newTitle: newTodolistName,
-  });
+  const action = renameTodolist.fulfilled(
+    {
+      todolistId: todolistId2,
+      newTitle: newTodolistName,
+    },
+    '',
+    {
+      todolistId: todolistId2,
+      newTitle: newTodolistName,
+    },
+  );
   const endState = TodolistsReducer(startState, action);
 
   expect(endState[0].title).toStrictEqual('What to learn');

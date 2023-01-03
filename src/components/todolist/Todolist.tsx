@@ -79,7 +79,7 @@ export const Todolist = React.memo((props: PropsType) => {
 
   return (
     <div className={s.todolist}>
-      <div className={s.heading}>
+      <div className={s.headingBlock}>
         <h3>
           <EditableSpan name={todolist.title} callback={updateTodolistTitle} />
         </h3>
@@ -136,7 +136,6 @@ export const Todolist = React.memo((props: PropsType) => {
   );
 });
 
-// types
 export type FilterType = 'all' | 'active' | 'completed';
 type PropsType = {
   todolist: TodolistType;

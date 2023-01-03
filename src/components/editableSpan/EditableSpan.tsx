@@ -6,6 +6,8 @@ import c from '../../assets/commonStyles/common.module.scss';
 import { useAppDispatch } from '../../data/hooks';
 import { setError } from '../../store/reducers/appReducer';
 
+import s from './editableSpan.module.scss';
+
 export type EditableSpanPropsType = {
   name: string;
   callback: (newTitle: string) => void;
@@ -36,7 +38,7 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
   };
 
   return (
-    <div>
+    <div className={s.main}>
       {field === 'input' ? (
         <TextField
           InputProps={{ className: c.textField }}

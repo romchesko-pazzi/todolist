@@ -6,6 +6,7 @@ import { FilterType } from '../../components/todolist/Todolist';
 import { AppStatuses } from '../../data/constants/appStatuses';
 
 import { AppStatusesType, setError, setLoadingBar } from './appReducer';
+import { logout } from './authReducer';
 
 const initialState: TodolistType[] = [];
 
@@ -138,7 +139,9 @@ const slice = createSlice({
             ? { ...m, title: action.payload.newTitle }
             : m,
         );
-      });
+      })
+      // обнуление данных при выходе из app
+      .addCase(logout.fulfilled, () => []);
   },
 });
 

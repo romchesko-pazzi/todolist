@@ -5,6 +5,7 @@ import { TodoType } from '../../api/todolist-api';
 import { AppStatuses } from '../../data/constants/appStatuses';
 
 import { AppStatusesType, setError, setLoadingBar } from './appReducer';
+import { logout } from './authReducer';
 import { addTodolist, getTodolists, removeTodolist } from './todolistsReducer';
 
 const initialState: TaskType = {};
@@ -150,7 +151,9 @@ const slice = createSlice({
         state[action.payload.todolistId] = state[action.payload.todolistId].map(m =>
           m.id === action.payload.taskId ? { ...m, ...action.payload.task } : m,
         );
-      });
+      })
+      // обнуление данных при выходе из app
+      .addCase(logout.fulfilled, () => ({}));
   },
 });
 

@@ -1,14 +1,24 @@
 .todolist {
   font-size: 1.9rem;
+  box-shadow: 0 0 .5rem -.1rem rgba(0, 0, 0, 0.45);
+  max-width: 28rem;
+  padding: 1rem;
+  margin: 1.3rem;
+  border-radius: .4rem;
+  height: fit-content;
 
   & > div:not(:last-child) {
     margin-bottom: 1rem;
   }
 }
 
-.heading {
+.headingBlock {
   display: flex;
   align-items: center;
+
+  & > h3 {
+    overflow: hidden;
+  }
 }
 
 .filterButtons {

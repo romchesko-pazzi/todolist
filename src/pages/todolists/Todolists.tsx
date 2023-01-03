@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
 
-import { Grid, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { AddForm } from '../../components/addForm/AddForm';
@@ -12,6 +11,8 @@ import {
   TodolistType,
 } from '../../store/reducers/todolistsReducer';
 
+import s from './todolists.module.scss';
+
 export const Todolists = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -19,12 +20,9 @@ export const Todolists = () => {
   const isAuth = useAppSelector(state => state.auth.isAuth);
 
   useEffect(() => {
-    if (!isAuth) navigate('/');
-  }, [isAuth, navigate]);
-
-  useEffect(() => {
     if (isAuth) dispatch(getTodolists());
-  }, [dispatch]);
+    if (!isAuth) navigate('/');
+  }, [dispatch, isAuth, navigate]);
 
   const addTodoList = useCallback(
     (title: string) => {
@@ -34,21 +32,13 @@ export const Todolists = () => {
   );
 
   return (
-    <div>
-      <Grid container style={{ padding: '15px' }}>
-        <AddForm callback={addTodoList} />
-      </Grid>
-      <Grid container spacing={5}>
+    <div className={s.main}>
+      <AddForm callback={addTodoList} />
+      <div className={s.todolists}>
         {todolists.map((m: TodolistType) => {
-          return (
-            <Grid item key={m.id}>
-              <Paper elevation={4} style={{ padding: '20px' }}>
-                <Todolist todolist={m} key={m.id} />
-              </Paper>
-            </Grid>
-          );
+          return <Todolist todolist={m} key={m.id} />;
         })}
-      </Grid>
+      </div>
     </div>
   );
 };

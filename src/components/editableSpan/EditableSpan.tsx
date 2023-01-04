@@ -3,8 +3,8 @@ import React, { ChangeEvent, useState } from 'react';
 import { TextField } from '@mui/material';
 
 import c from '../../assets/commonStyles/common.module.scss';
-import { useAppDispatch } from '../../data/hooks';
-import { setError } from '../../store/reducers/appReducer';
+import { useActions } from '../../data/useActions';
+import { appActions } from '../app';
 
 import s from './editableSpan.module.scss';
 
@@ -15,7 +15,7 @@ export type EditableSpanPropsType = {
 
 export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
   const { name, callback } = props;
-  const dispatch = useAppDispatch();
+  const { setError } = useActions(appActions);
   const [field, setField] = useState<'span' | 'input'>('span');
   const [value, setValue] = useState(name);
   const maxLength = 11;
@@ -25,7 +25,7 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.currentTarget.value.length > maxLength) {
-      dispatch(setError({ error: 'maximum length is 11' }));
+      setError({ error: 'maximum length is 11' });
 
       return;
     }

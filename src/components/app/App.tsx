@@ -1,0 +1,44 @@
+import React, { useEffect } from 'react';
+
+import { LinearProgress } from '@mui/material';
+import { Navigate, Route, Routes } from 'react-router-dom';
+
+import { path } from '../../data/constants/paths';
+import { useActions } from '../../data/useActions';
+import { useAppSelector } from '../../data/useAppSelector';
+import { Login } from '../../pages/login/Login';
+import { NotFound } from '../../pages/notFound/NotFound';
+import { Todolists } from '../../pages/todolists/Todolists';
+import { ErrorSnackBar } from '../errorSnackBar/ErrorSnackBar';
+import { Header } from '../header/Header';
+
+import { selectIsAppInitialized } from './appSelectors';
+
+import { appActions } from './index';
+
+export const App = () => {
+  const isInitialized = useAppSelector(selectIsAppInitialized);
+  const { initializeApp } = useActions(appActions);
+
+  useEffect(() => {
+    initializeApp();
+  }, [initializeApp]);
+
+  if (!isInitialized) {
+    return <LinearProgress />;
+  }
+
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Header />}>
+          <Route index element={<Login />} />
+          <Route path={path.todolists} element={<Todolists />} />
+          <Route path="*" element={<Navigate to="not-found" />} />
+        </Route>
+        <Route path={path.notFound} element={<NotFound />} />
+      </Routes>
+      <ErrorSnackBar />
+    </>
+  );
+};

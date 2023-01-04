@@ -11,10 +11,13 @@ import { useNavigate } from 'react-router-dom';
 
 import c from '../../assets/commonStyles/common.module.scss';
 import { path } from '../../data/constants/paths';
-import { useAppDispatch, useAppSelector } from '../../data/hooks';
-import { login } from '../../store/reducers/authReducer';
+import { useActions } from '../../data/useActions';
+import { useAppSelector } from '../../data/useAppSelector';
 
+import { selectIsAuth } from './authSelectors';
 import s from './login.module.scss';
+
+import { authActions } from './index';
 
 const validate = (values: FormikErrorType) => {
   const minPasswordLength = 3;
@@ -36,9 +39,11 @@ const validate = (values: FormikErrorType) => {
 };
 
 export const Login = () => {
-  const dispatch = useAppDispatch();
-  const isAuth = useAppSelector(state => state.auth.isAuth);
+  const isAuth = useAppSelector(selectIsAuth);
   const navigate = useNavigate();
+
+  // диспатч под капотом
+  const { login } = useActions(authActions);
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -47,7 +52,7 @@ export const Login = () => {
     },
     validate,
     onSubmit: values => {
-      dispatch(login(values));
+      login(values);
       formik.resetForm();
     },
   });

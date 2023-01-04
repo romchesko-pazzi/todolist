@@ -3,32 +3,32 @@ import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AddForm } from '../../components/addForm/AddForm';
+import { todolistActions } from '../../components/todolist';
 import { Todolist } from '../../components/todolist/Todolist';
-import { useAppDispatch, useAppSelector } from '../../data/hooks';
-import {
-  addTodolist,
-  getTodolists,
-  TodolistType,
-} from '../../store/reducers/todolistsReducer';
+import { useActions } from '../../data/useActions';
+import { useAppSelector } from '../../data/useAppSelector';
+import { TodolistType } from '../../store/reducers/todolistsReducer';
+import { authSelectors } from '../login';
 
 import s from './todolists.module.scss';
+import { selectTodolists } from './todolistSelectors';
 
 export const Todolists = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const todolists = useAppSelector(state => state.todolists);
-  const isAuth = useAppSelector(state => state.auth.isAuth);
+  const todolists = useAppSelector(selectTodolists);
+  const isAuth = useAppSelector(authSelectors.selectIsAuth);
+  const { getTodolists, addTodolist } = useActions(todolistActions);
 
   useEffect(() => {
-    if (isAuth) dispatch(getTodolists());
+    if (isAuth) getTodolists();
     if (!isAuth) navigate('/');
-  }, [dispatch, isAuth, navigate]);
+  }, [getTodolists, isAuth, navigate]);
 
   const addTodoList = useCallback(
     (title: string) => {
-      dispatch(addTodolist(title));
+      addTodolist(title);
     },
-    [dispatch],
+    [addTodolist],
   );
 
   return (

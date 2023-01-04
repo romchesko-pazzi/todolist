@@ -3,36 +3,33 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Delete } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
-import { ResponseTaskType, TaskStatuses } from '../../api/tasks-api';
+import { TaskStatuses } from '../../api/tasks-api';
 import c from '../../assets/commonStyles/common.module.scss';
-import { useAppDispatch, useAppSelector } from '../../data/hooks';
-import {
-  addNewTask,
-  getTasks,
-  removeTask,
-  updateTaskData,
-} from '../../store/reducers/tasksReducer';
-import {
-  removeTodolist,
-  renameTodolist,
-  TodolistType,
-} from '../../store/reducers/todolistsReducer';
+import { useActions } from '../../data/useActions';
+import { useAppSelector } from '../../data/useAppSelector';
+import { TodolistType } from '../../store/reducers/todolistsReducer';
 import { AddForm } from '../addForm/AddForm';
 import { EditableSpan } from '../editableSpan/EditableSpan';
+import { taskActions } from '../task';
 import { Task } from '../task/Task';
 
 import s from './todolist.module.scss';
 
+import { todolistActions } from './index';
+
 export const Todolist = React.memo((props: PropsType) => {
   const { todolist } = props;
   const { todoStatus } = todolist;
-  const dispatch = useAppDispatch();
   let tasks = useAppSelector(state => state.tasks[todolist.id]);
   const [filter, setFilter] = useState<FilterType>('all');
 
+  // make wrapper around creators to not use dispatch
+  const { removeTodolist, renameTodolist } = useActions(todolistActions);
+  const { getTasks, addNewTask } = useActions(taskActions);
+
   useEffect(() => {
-    dispatch(getTasks(todolist.id));
-  }, [dispatch]);
+    getTasks(todolist.id);
+  }, [todolist.id, getTasks]);
 
   if (filter === 'completed') {
     tasks = tasks.filter(f => f.status === TaskStatuses.Completed);
@@ -43,39 +40,24 @@ export const Todolist = React.memo((props: PropsType) => {
   const filterTask = useCallback((taskTitle: FilterType) => {
     setFilter(taskTitle);
   }, []);
+
   const addTask = useCallback(
     (newTitle: string) => {
-      dispatch(addNewTask({ title: newTitle, todoListId: todolist.id }));
+      addNewTask({ title: newTitle, todoListId: todolist.id });
     },
-    [todolist.id, dispatch],
+    [todolist.id, addNewTask],
   );
-  const deleteTask = useCallback(
-    (taskId: string) => {
-      dispatch(removeTask({ todolistId: todolist.id, taskId }));
-    },
-    [todolist.id, dispatch],
-  );
-  const changeTaskStatus = useCallback(
-    (task: ResponseTaskType) => {
-      dispatch(updateTaskData(task));
-    },
-    [dispatch],
-  );
+
   const updateTodolistTitle = useCallback(
     (newTitle: string) => {
-      dispatch(renameTodolist({ todolistId: todolist.id, newTitle }));
+      renameTodolist({ todolistId: todolist.id, newTitle });
     },
-    [todolist.id, dispatch],
+    [todolist.id, renameTodolist],
   );
-  const renameTodolistTask = useCallback(
-    (task: ResponseTaskType) => {
-      dispatch(updateTaskData(task));
-    },
-    [dispatch],
-  );
+
   const deleteTodolist = useCallback(() => {
-    dispatch(removeTodolist(todolist.id));
-  }, [todolist.id, dispatch]);
+    removeTodolist(todolist.id);
+  }, [todolist.id, removeTodolist]);
 
   return (
     <div className={s.todolist}>
@@ -95,16 +77,8 @@ export const Todolist = React.memo((props: PropsType) => {
         <AddForm callback={addTask} disabled={todoStatus} />
       </div>
       <div>
-        {tasks.map(m => {
-          return (
-            <Task
-              key={m.id}
-              task={m}
-              deleteTask={deleteTask}
-              renameTodolistTask={renameTodolistTask}
-              changeTaskStatus={changeTaskStatus}
-            />
-          );
+        {tasks.map(task => {
+          return <Task key={task.id} task={task} todolistId={todolist.id} />;
         })}
       </div>
       <div className={s.filterButtons}>

@@ -4,15 +4,15 @@ import { LinearProgress } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 import c from '../../assets/commonStyles/common.module.scss';
-import { useActions } from '../../data/useActions';
-import { useAppSelector } from '../../data/useAppSelector';
-import { authActions, authSelectors } from '../../pages/login';
+import { useActions } from '../../data/hooks/useActions';
+import { useAppSelector } from '../../data/hooks/useAppSelector';
+import { authActions, selectIsAuth } from '../../pages/login';
 import { appSelectors } from '../app';
 
 import s from './header.module.scss';
 
 export const Header = () => {
-  const isAuth = useAppSelector(authSelectors.selectIsAuth);
+  const isAuth = useAppSelector(selectIsAuth);
   const appStatus = useAppSelector(appSelectors.selectAppStatus);
   const { logout } = useActions(authActions);
 

@@ -5,35 +5,35 @@ import { IconButton } from '@mui/material';
 
 import { TaskStatuses } from '../../api/tasks-api';
 import c from '../../assets/commonStyles/common.module.scss';
-import { useActions } from '../../data/useActions';
-import { useAppSelector } from '../../data/useAppSelector';
+import { AppStatuses } from '../../data/constants/appStatuses';
+import { ButtonFilters } from '../../data/constants/buttonFilters';
+import { useActions } from '../../data/hooks/useActions';
+import { useAppSelector } from '../../data/hooks/useAppSelector';
+import { todolistsActions } from '../../pages/todolists';
 import { TodolistType } from '../../store/reducers/todolistsReducer';
-import { AddForm } from '../addForm/AddForm';
-import { EditableSpan } from '../editableSpan/EditableSpan';
-import { taskActions } from '../task';
-import { Task } from '../task/Task';
+import { AddForm } from '../addForm';
+import { EditableSpan } from '../editableSpan';
+import { Task, tasksActions } from '../task';
 
 import s from './todolist.module.scss';
-
-import { todolistActions } from './index';
 
 export const Todolist = React.memo((props: PropsType) => {
   const { todolist } = props;
   const { todoStatus } = todolist;
   let tasks = useAppSelector(state => state.tasks[todolist.id]);
-  const [filter, setFilter] = useState<FilterType>('all');
+  const [filter, setFilter] = useState<FilterType>(ButtonFilters.all);
 
   // make wrapper around creators to not use dispatch
-  const { removeTodolist, renameTodolist } = useActions(todolistActions);
-  const { getTasks, addNewTask } = useActions(taskActions);
+  const { removeTodolist, renameTodolist } = useActions(todolistsActions);
+  const { getTasks, addNewTask } = useActions(tasksActions);
 
   useEffect(() => {
     getTasks(todolist.id);
   }, [todolist.id, getTasks]);
 
-  if (filter === 'completed') {
+  if (filter === ButtonFilters.completed) {
     tasks = tasks.filter(f => f.status === TaskStatuses.Completed);
-  } else if (filter === 'active') {
+  } else if (filter === ButtonFilters.active) {
     tasks = tasks.filter(f => f.status === TaskStatuses.New);
   }
 
@@ -59,6 +59,26 @@ export const Todolist = React.memo((props: PropsType) => {
     removeTodolist(todolist.id);
   }, [todolist.id, removeTodolist]);
 
+  const buttonRender = (buttonName: FilterType) => {
+    let style = `${c.button} ${c.all}`;
+
+    if (buttonName === ButtonFilters.active) {
+      style = `${c.button} ${c.active}`;
+    } else if (buttonName === ButtonFilters.completed) {
+      style = `${c.button} ${c.completed}`;
+    }
+
+    return (
+      <button
+        className={filter === buttonName ? style : c.button}
+        type="button"
+        onClick={() => filterTask(buttonName)}
+      >
+        {buttonName}
+      </button>
+    );
+  };
+
   return (
     <div className={s.todolist}>
       <div className={s.headingBlock}>
@@ -68,7 +88,7 @@ export const Todolist = React.memo((props: PropsType) => {
         <IconButton
           className={c.icon}
           onClick={deleteTodolist}
-          disabled={todoStatus === 'loading'}
+          disabled={todoStatus === AppStatuses.loading}
         >
           <Delete />
         </IconButton>
@@ -82,29 +102,9 @@ export const Todolist = React.memo((props: PropsType) => {
         })}
       </div>
       <div className={s.filterButtons}>
-        <button
-          className={filter === 'all' ? `${c.button} ${c.all}` : c.button}
-          type="button"
-          onClick={() => filterTask('all')}
-        >
-          all
-        </button>
-        <button
-          className={filter === 'active' ? `${c.button} ${c.active}` : c.button}
-          type="button"
-          onClick={() => filterTask('active')}
-          color="secondary"
-        >
-          active
-        </button>
-        <button
-          className={filter === 'completed' ? `${c.button} ${c.completed}` : c.button}
-          type="button"
-          onClick={() => filterTask('completed')}
-          color="success"
-        >
-          completed
-        </button>
+        {buttonRender(ButtonFilters.all)}
+        {buttonRender(ButtonFilters.active)}
+        {buttonRender(ButtonFilters.completed)}
       </div>
     </div>
   );

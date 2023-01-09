@@ -1,16 +1,15 @@
 import { v1 } from 'uuid';
 
 import {
-  addTodolist,
+  todolistsActions,
   TodolistType,
   TodolistsReducer,
-  removeTodolist,
-  renameTodolist,
 } from '../store/reducers/todolistsReducer';
 
 let todolistId1: string;
 let todolistId2: string;
 let startState: TodolistType[] = [];
+const { removeTodolist, renameTodolist, addTodolist } = todolistsActions;
 
 beforeEach(() => {
   todolistId1 = v1();

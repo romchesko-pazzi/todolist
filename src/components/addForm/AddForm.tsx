@@ -16,15 +16,11 @@ type AddFormPropsType = {
 export const AddForm = React.memo((props: AddFormPropsType) => {
   const { callback, disabled } = props;
   const [value, setValue] = useState('');
-  const [error, setError] = useState(false);
 
   const onClickHandler = () => {
     if (value.trim() !== '') {
       callback(value.trim());
       setValue('');
-    }
-    if (value === '') {
-      setError(true);
     }
   };
 
@@ -35,7 +31,6 @@ export const AddForm = React.memo((props: AddFormPropsType) => {
   };
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setError(false);
     setValue(event.currentTarget.value);
   };
 
@@ -46,8 +41,6 @@ export const AddForm = React.memo((props: AddFormPropsType) => {
       <TextField
         InputLabelProps={{ className: c.textField }}
         InputProps={{ className: c.textField }}
-        helperText={error && 'Title is required'}
-        error={error}
         label="Title"
         value={value}
         disabled={isDisabled}

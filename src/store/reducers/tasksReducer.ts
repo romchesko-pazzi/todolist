@@ -5,12 +5,13 @@ import { TodoType } from '../../api/todolist-api';
 import { AppStatuses } from '../../data/constants/appStatuses';
 
 import { AppStatusesType, setError, setLoadingBar } from './appReducer';
-import { logout } from './authReducer';
-import { addTodolist, getTodolists, removeTodolist } from './todolistsReducer';
+import { authActions } from './authReducer';
+import { todolistsActions } from './todolistsReducer';
 
 const initialState: TaskType = {};
+const { addTodolist, removeTodolist, getTodolists } = todolistsActions;
 
-export const getTasks = createAsyncThunk(
+const getTasks = createAsyncThunk(
   'tasks/getTasks',
   async (todolistId: string, { dispatch, rejectWithValue }) => {
     try {
@@ -26,7 +27,7 @@ export const getTasks = createAsyncThunk(
   },
 );
 
-export const removeTask = createAsyncThunk(
+const removeTask = createAsyncThunk(
   'tasks/removeTask',
   async (
     params: { todolistId: string; taskId: string },
@@ -50,7 +51,7 @@ export const removeTask = createAsyncThunk(
   },
 );
 
-export const addNewTask = createAsyncThunk(
+const addNewTask = createAsyncThunk(
   'tasks/addNewTask',
   async (
     params: { title: string; todoListId: string },
@@ -81,7 +82,7 @@ export const addNewTask = createAsyncThunk(
   },
 );
 
-export const updateTaskData = createAsyncThunk(
+const updateTaskData = createAsyncThunk(
   'tasks/updateTaskData',
   async (task: ResponseTaskType, { dispatch, rejectWithValue }) => {
     const body: UpdateBody = {
@@ -94,6 +95,7 @@ export const updateTaskData = createAsyncThunk(
     };
 
     try {
+      dispatch(setLoadingBar({ appStatus: AppStatuses.loading }));
       await tasksAPI.renameTask(task.todoListId, task.id, body);
 
       return { todolistId: task.todoListId, task: body, taskId: task.id };
@@ -101,9 +103,18 @@ export const updateTaskData = createAsyncThunk(
       dispatch(setError({ error: err.message }));
 
       return rejectWithValue({ rejectedValue: err.message });
+    } finally {
+      dispatch(setLoadingBar({ appStatus: AppStatuses.finished }));
     }
   },
 );
+
+export const tasksActions = {
+  addNewTask,
+  removeTask,
+  updateTaskData,
+  getTasks,
+};
 
 const slice = createSlice({
   name: 'tasks',
@@ -153,11 +164,12 @@ const slice = createSlice({
         );
       })
       // обнуление данных при выходе из app
-      .addCase(logout.fulfilled, () => ({}));
+      .addCase(authActions.logout.fulfilled, () => ({}));
   },
 });
 
-export const { disableDeleteButton } = slice.actions;
+const { disableDeleteButton } = slice.actions;
+
 export const TasksReducer = slice.reducer;
 
 export type TasksActionType = DisableDeleteButtonType;

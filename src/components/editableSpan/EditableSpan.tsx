@@ -3,7 +3,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { TextField } from '@mui/material';
 
 import c from '../../assets/commonStyles/common.module.scss';
-import { useActions } from '../../data/useActions';
+import { useActions } from '../../data/hooks/useActions';
 import { appActions } from '../app';
 
 import s from './editableSpan.module.scss';

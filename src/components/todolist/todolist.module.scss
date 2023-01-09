@@ -15,6 +15,7 @@
 .headingBlock {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   & > h3 {
     overflow: hidden;

@@ -2,15 +2,16 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import { todolistsAPI, TodoType } from '../../api/todolist-api';
-import { FilterType } from '../../components/todolist/Todolist';
+import { FilterType } from '../../components/todolist';
 import { AppStatuses } from '../../data/constants/appStatuses';
+import { ButtonFilters } from '../../data/constants/buttonFilters';
 
 import { AppStatusesType, setError, setLoadingBar } from './appReducer';
-import { logout } from './authReducer';
+import { authActions } from './authReducer';
 
 const initialState: TodolistType[] = [];
 
-export const getTodolists = createAsyncThunk(
+const getTodolists = createAsyncThunk(
   'todolists/getTodolists',
   async (param, { dispatch, rejectWithValue }) => {
     try {
@@ -30,7 +31,7 @@ export const getTodolists = createAsyncThunk(
   },
 );
 
-export const addTodolist = createAsyncThunk(
+const addTodolist = createAsyncThunk(
   'todolists/addTodolist',
   async (title: string, { dispatch, rejectWithValue }) => {
     try {
@@ -55,7 +56,7 @@ export const addTodolist = createAsyncThunk(
   },
 );
 
-export const removeTodolist = createAsyncThunk(
+const removeTodolist = createAsyncThunk(
   'todolists/removeTodolist',
   async (todolistId: string, { dispatch, rejectWithValue }) => {
     try {
@@ -77,7 +78,7 @@ export const removeTodolist = createAsyncThunk(
   },
 );
 
-export const renameTodolist = createAsyncThunk(
+const renameTodolist = createAsyncThunk(
   'todolists/renameTodolist',
   async (
     params: { todolistId: string; newTitle: string },
@@ -111,7 +112,9 @@ const slice = createSlice({
       action: PayloadAction<{ todolistId: string; value: AppStatusesType }>,
     ) => {
       return state.map(m =>
-        m.id === action.payload.todolistId ? { ...m, todoStatus: 'loading' } : m,
+        m.id === action.payload.todolistId
+          ? { ...m, todoStatus: AppStatuses.loading }
+          : m,
       );
     },
   },
@@ -120,8 +123,8 @@ const slice = createSlice({
       .addCase(getTodolists.fulfilled, (state, action) => {
         return action.payload.todolists.map((m: TodoType) => ({
           ...m,
-          filter: 'all',
-          todoStatus: 'idle',
+          filter: ButtonFilters.all,
+          todoStatus: AppStatuses.idle,
         }));
       })
       .addCase(removeTodolist.fulfilled, (state, action) => {
@@ -129,7 +132,11 @@ const slice = createSlice({
       })
       .addCase(addTodolist.fulfilled, (state, action) => {
         return [
-          { ...action.payload.todolist, filter: 'all', todoStatus: 'idle' },
+          {
+            ...action.payload.todolist,
+            filter: ButtonFilters.all,
+            todoStatus: AppStatuses.idle,
+          },
           ...state,
         ];
       })
@@ -141,7 +148,7 @@ const slice = createSlice({
         );
       })
       // обнуление данных при выходе из app
-      .addCase(logout.fulfilled, () => []);
+      .addCase(authActions.logout.fulfilled, () => []);
   },
 });
 
@@ -151,4 +158,11 @@ const { disableButton } = slice.actions;
 export type TodolistType = TodoType & {
   filter: FilterType;
   todoStatus: AppStatusesType;
+};
+
+export const todolistsActions = {
+  getTodolists,
+  addTodolist,
+  removeTodolist,
+  renameTodolist,
 };

@@ -11,8 +11,8 @@ import { useNavigate } from 'react-router-dom';
 
 import c from '../../assets/commonStyles/common.module.scss';
 import { path } from '../../data/constants/paths';
-import { useActions } from '../../data/useActions';
-import { useAppSelector } from '../../data/useAppSelector';
+import { useActions } from '../../data/hooks/useActions';
+import { useAppSelector } from '../../data/hooks/useAppSelector';
 
 import { selectIsAuth } from './authSelectors';
 import s from './login.module.scss';

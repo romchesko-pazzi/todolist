@@ -1,7 +1,4 @@
-import { logout, login } from '../../store/reducers/authReducer';
+export { authActions } from '../../store/reducers/authReducer';
+export { selectIsAuth } from './authSelectors';
 
-import * as authSelectors from './authSelectors';
-
-export const authActions = { logout, login };
-
-export { authSelectors };
+export { Login } from './Login';

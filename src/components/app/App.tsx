@@ -4,13 +4,13 @@ import { LinearProgress } from '@mui/material';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { path } from '../../data/constants/paths';
-import { useActions } from '../../data/useActions';
-import { useAppSelector } from '../../data/useAppSelector';
-import { Login } from '../../pages/login/Login';
-import { NotFound } from '../../pages/notFound/NotFound';
-import { Todolists } from '../../pages/todolists/Todolists';
-import { ErrorSnackBar } from '../errorSnackBar/ErrorSnackBar';
-import { Header } from '../header/Header';
+import { useActions } from '../../data/hooks/useActions';
+import { useAppSelector } from '../../data/hooks/useAppSelector';
+import { Login } from '../../pages/login';
+import { NotFound } from '../../pages/notFound';
+import { Todolists } from '../../pages/todolists';
+import { ErrorSnackBar } from '../errorSnackBar';
+import { Header } from '../header';
 
 import { selectIsAppInitialized } from './appSelectors';
 

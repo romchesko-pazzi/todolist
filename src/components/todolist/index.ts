@@ -1,13 +1,2 @@
-import {
-  getTodolists,
-  addTodolist,
-  renameTodolist,
-  removeTodolist,
-} from '../../store/reducers/todolistsReducer';
-
-export const todolistActions = {
-  removeTodolist,
-  renameTodolist,
-  getTodolists,
-  addTodolist,
-};
+export { Todolist } from './Todolist';
+export type { FilterType } from './Todolist';

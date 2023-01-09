@@ -1,10 +1,2 @@
-import {
-  removeTask,
-  addNewTask,
-  getTasks,
-  updateTaskData,
-} from '../../store/reducers/tasksReducer';
-
-const taskActions = { removeTask, addNewTask, getTasks, updateTaskData };
-
-export { taskActions };
+export { tasksActions } from '../../store/reducers/tasksReducer';
+export { Task } from './Task';

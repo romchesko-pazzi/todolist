@@ -13,7 +13,7 @@ const initialState = {
   error: '',
 };
 
-export const login = createAsyncThunk(
+const login = createAsyncThunk(
   'auth/login',
   async (loginData: LoginParamsType, { dispatch, rejectWithValue }) => {
     try {
@@ -36,7 +36,7 @@ export const login = createAsyncThunk(
   },
 );
 
-export const logout = createAsyncThunk('auth/logout', async (params, { dispatch }) => {
+const logout = createAsyncThunk('auth/logout', async (params, { dispatch }) => {
   try {
     dispatch(setLoadingBar({ appStatus: AppStatuses.loading }));
     const response = await authAPI.logout();
@@ -54,6 +54,8 @@ export const logout = createAsyncThunk('auth/logout', async (params, { dispatch 
     dispatch(setLoadingBar({ appStatus: AppStatuses.finished }));
   }
 });
+
+export const authActions = { login, logout };
 
 const slice = createSlice({
   name: 'auth',

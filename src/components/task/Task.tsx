@@ -5,12 +5,12 @@ import { Checkbox, IconButton } from '@mui/material';
 
 import { ResponseTaskType, TaskStatuses } from '../../api/tasks-api';
 import c from '../../assets/commonStyles/common.module.scss';
-import { useActions } from '../../data/useActions';
-import { EditableSpan } from '../editableSpan/EditableSpan';
+import { useActions } from '../../data/hooks/useActions';
+import { EditableSpan } from '../editableSpan';
 
 import s from './task.module.scss';
 
-import { taskActions } from './index';
+import { tasksActions } from './index';
 
 type TaskPropsType = {
   task: ResponseTaskType;
@@ -20,7 +20,7 @@ type TaskPropsType = {
 export const Task = memo((props: TaskPropsType) => {
   const { todolistId, task } = props;
   const { taskStatus } = task;
-  const { updateTaskData, removeTask } = useActions(taskActions);
+  const { updateTaskData, removeTask } = useActions(tasksActions);
 
   const changeTaskStatusHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {

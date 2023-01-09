@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { todolistsAPI, TodoType } from '../../api/todolist-api';
+import { todolistsAPI } from '../../api/todolist-api';
+import { TodoType } from '../../api/types';
 import { FilterType } from '../../components/todolist';
 import { AppStatuses } from '../../data/constants/appStatuses';
 import { ButtonFilters } from '../../data/constants/buttonFilters';

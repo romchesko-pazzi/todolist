@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { authAPI, LoginParamsType } from '../../api/login-api';
+import { authAPI } from '../../api/login-api';
+import { LoginParamsType } from '../../api/types';
 import { AppStatuses } from '../../data/constants/appStatuses';
 
 import { setError, setLoadingBar } from './appReducer';

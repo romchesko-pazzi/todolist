@@ -2,7 +2,7 @@ import { v1 } from 'uuid';
 
 import { TasksReducer, TaskType } from '../store/reducers/tasksReducer';
 import {
-  addTodolist,
+  todolistsActions,
   TodolistType,
   TodolistsReducer,
 } from '../store/reducers/todolistsReducer';
@@ -17,7 +17,7 @@ test('id should be similar', () => {
     addedDate: '',
     order: 0,
   };
-  const action = addTodolist.fulfilled({ todolist }, '', todolist.title);
+  const action = todolistsActions.addTodolist.fulfilled({ todolist }, '', todolist.title);
 
   const endTodolistsState = TodolistsReducer(startTodolistsState, action);
   const endTasksState = TasksReducer(startTasksState, action);

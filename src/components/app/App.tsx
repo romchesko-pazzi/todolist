@@ -9,7 +9,7 @@ import { useAppSelector } from '../../data/hooks/useAppSelector';
 import { Login } from '../../pages/login';
 import { NotFound } from '../../pages/notFound';
 import { Todolists } from '../../pages/todolists';
-import { ErrorSnackBar } from '../errorSnackBar';
+import { ErrorSnackbar } from '../errorSnackbar';
 import { Header } from '../header';
 
 import { selectIsAppInitialized } from './appSelectors';
@@ -38,7 +38,7 @@ export const App = () => {
         </Route>
         <Route path={path.notFound} element={<NotFound />} />
       </Routes>
-      <ErrorSnackBar />
+      <ErrorSnackbar />
     </>
   );
 };

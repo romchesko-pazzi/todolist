@@ -3,8 +3,9 @@ import React, { ChangeEvent, memo, useCallback } from 'react';
 import { Delete } from '@mui/icons-material';
 import { Checkbox, IconButton } from '@mui/material';
 
-import { ResponseTaskType, TaskStatuses } from '../../api/tasks-api';
+import { ResponseTaskType } from '../../api/types';
 import c from '../../assets/commonStyles/common.module.scss';
+import { TaskStatuses } from '../../data/constants/taskStatuses';
 import { useActions } from '../../data/hooks/useActions';
 import { EditableSpan } from '../editableSpan';
 

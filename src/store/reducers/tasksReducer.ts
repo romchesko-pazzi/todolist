@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ResponseTaskType, tasksAPI, UpdateBody } from '../../api/tasks-api';
-import { TodoType } from '../../api/todolist-api';
+import { tasksAPI } from '../../api/tasks-api';
+import { ResponseTaskType, TodoType, UpdateBody } from '../../api/types';
 import { AppStatuses } from '../../data/constants/appStatuses';
 
 import { AppStatusesType, setError, setLoadingBar } from './appReducer';

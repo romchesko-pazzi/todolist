@@ -1,24 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 import { API_KEY } from './api-key';
-
-export type TodoType = {
-  id: string;
-  title: string;
-  addedDate: string;
-  order: number;
-};
-
-export type DataType<T = {}> = {
-  item: T;
-};
-
-export type CommonType<T = {}> = {
-  resultCode: number;
-  messages: string[];
-  fieldsErrors?: string[];
-  data: T;
-};
+import { CommonType, DataType, TodoType } from './types';
 
 export const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.1/',

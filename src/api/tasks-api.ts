@@ -1,51 +1,7 @@
 import { AxiosResponse } from 'axios';
 
-import { AppStatusesType } from '../store/reducers/appReducer';
-
-import { CommonType, DataType, instance } from './todolist-api';
-
-export enum TaskStatuses {
-  New,
-  InProgress,
-  Completed,
-  Draft,
-}
-
-export enum TaskPriority {
-  Low,
-  Middle,
-  Hi,
-  Urgently,
-  Later,
-}
-
-export type ResponseTaskType = {
-  id: string;
-  title: string;
-  description: string;
-  todoListId: string;
-  order: number;
-  status: TaskStatuses;
-  priority: number;
-  startDate: string;
-  deadline: string;
-  addedDate: string;
-  taskStatus?: AppStatusesType;
-};
-export type UpdateBody = {
-  title: string;
-  description: string;
-  status: TaskStatuses;
-  priority: number;
-  startDate: string;
-  deadline: string;
-};
-
-type GetType = {
-  items: ResponseTaskType[];
-  totalCount: number;
-  error: string | null;
-};
+import { instance } from './todolist-api';
+import { CommonType, DataType, GetType, ResponseTaskType, UpdateBody } from './types';
 
 export const tasksAPI = {
   getTasks(todolistId: string): Promise<AxiosResponse<GetType>> {

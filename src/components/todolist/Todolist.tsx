@@ -3,10 +3,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Delete } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
-import { TaskStatuses } from '../../api/tasks-api';
 import c from '../../assets/commonStyles/common.module.scss';
 import { AppStatuses } from '../../data/constants/appStatuses';
 import { ButtonFilters } from '../../data/constants/buttonFilters';
+import { TaskStatuses } from '../../data/constants/taskStatuses';
 import { useActions } from '../../data/hooks/useActions';
 import { useAppSelector } from '../../data/hooks/useAppSelector';
 import { todolistsActions } from '../../pages/todolists';

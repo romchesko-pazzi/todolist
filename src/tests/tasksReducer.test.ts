@@ -1,16 +1,14 @@
-import { ResponseTaskType, TaskPriority, TaskStatuses } from '../api/tasks-api';
-import {
-  addNewTask,
-  removeTask,
-  TasksReducer,
-  TaskType,
-  updateTaskData,
-} from '../store/reducers/tasksReducer';
-import { addTodolist, removeTodolist } from '../store/reducers/todolistsReducer';
+import { ResponseTaskType } from '../api/types';
+import { tasksActions } from '../components/task';
+import { TaskPriority } from '../data/constants/taskPriority';
+import { TaskStatuses } from '../data/constants/taskStatuses';
+import { todolistsActions } from '../pages/todolists';
+import { TasksReducer, TaskType } from '../store/reducers/tasksReducer';
 
 let todolistId1: string;
 let todolistId2: string;
-
+const { addTodolist, removeTodolist } = todolistsActions;
+const { addNewTask, removeTask, updateTaskData } = tasksActions;
 let startState: TaskType;
 
 beforeEach(() => {

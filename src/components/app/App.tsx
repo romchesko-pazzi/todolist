@@ -9,7 +9,7 @@ import { useAppSelector } from '../../data/hooks/useAppSelector';
 import { Login } from '../../pages/login';
 import { NotFound } from '../../pages/notFound';
 import { Todolists } from '../../pages/todolists';
-import { ErrorSnackbar } from '../errorSnackbar';
+import { ErrorSnackbar } from '../errorForm';
 import { Header } from '../header';
 
 import { selectIsAppInitialized } from './appSelectors';

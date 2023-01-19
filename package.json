@@ -94,6 +94,7 @@
     "@storybook/testing-library": "^0.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "dotenv": "^16.0.3",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^23.0.0",

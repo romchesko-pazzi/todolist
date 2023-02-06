@@ -1,5 +1,5 @@
 # Simple Todolist
-### [Here you can look at the project](https://splendid-choux-f5cf4a.netlify.app)
+### [Here you can look at the project](https://romchesko-pazzi.github.io/todolist)
 ## Technologies
 <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />\
 <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />\
